@@ -174,7 +174,7 @@ const Search: NextPage<SearchProps> = () => {
 
             </Container>
 
-            <Container maxWidth="lg" sx={{ mb: 6 }}>
+            <Container maxWidth="lg" sx={{ mb: 6 }} disableGutters>
 
               {
                 keyword ? (

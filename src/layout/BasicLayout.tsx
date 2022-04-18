@@ -17,8 +17,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import { Logo, NavButton } from '../components';
 import { ToggleMode } from '../features';
 import useMediaQueryKey from '../hooks/useMediaQueryKey';
+import MobileHeader from '../features/MobileHeader';
+import { getIsMobile } from '../utils/utils';
 
 const PlayBar = loadable(() => import(`../features/play/PlayBar`));
+const BottomNavBar = loadable(() => import(`../features/BottomNavBar`));
 const ScrollTop = loadable(() => import(`../components/ScrollTop`));
 
 const SIDE_WIDTH = 240;
@@ -74,22 +77,9 @@ const BasicLayout = (props: BasicLayoutProps) => {
 
   const key = useMediaQueryKey();
 
-  const sideWidth = useMemo(() => {
-    switch (key) {
-      case 'xl':
-        return leftWidth;
-      case 'lg':
-        return leftWidth;
-      case 'md':
-        return 0;
-      case 'sm':
-        return 0;
-      case 'xs':
-        return 0;
-      default:
-        return leftWidth;
-    }
-  }, [key, leftWidth]);
+  const isMobile = useMemo(() => getIsMobile(key), [key]);
+
+  const sideWidth = useMemo(() => isMobile || !key ? 0 : leftWidth, [isMobile, key, leftWidth]);
 
   const handleToggleLeftWidth = useCallback(() => {
 
@@ -98,7 +88,7 @@ const BasicLayout = (props: BasicLayoutProps) => {
     prevWidthRef.current = w;
   }, [leftWidth]);
 
-  console.log(' render BasicLayout');
+
   return (
     <>
       <div id="back-to-top-anchor" />
@@ -108,6 +98,9 @@ const BasicLayout = (props: BasicLayoutProps) => {
           position: 'relative'
         }}
       >
+        {
+          isMobile && (<MobileHeader />)
+        }
         <Paper
           sx={{
             width: sideWidth,
@@ -154,6 +147,7 @@ const BasicLayout = (props: BasicLayoutProps) => {
             >
               关于
             </NavButton>
+
             <div style={{ flex: 1 }} />
 
             <Box
@@ -188,7 +182,11 @@ const BasicLayout = (props: BasicLayoutProps) => {
 
           {props.children}
 
-          <PlayBar sideWidth={sideWidth} hide={hideAudio} />
+          <PlayBar isMobile={isMobile} sideWidth={sideWidth} hide={hideAudio} />
+          {
+            isMobile && (<BottomNavBar />)
+          }
+
         </Box>
       </Box>
 

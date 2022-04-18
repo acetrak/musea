@@ -19,11 +19,12 @@ import { PlaylistItem } from '../../store/play/reducer';
 type PlayBarProps = {
   sideWidth: number
   hide?: boolean
+  isMobile?: boolean
 }
 
 const PlayBar = (props: PlayBarProps) => {
 
-  const { sideWidth, hide } = props;
+  const { sideWidth, hide, isMobile } = props;
 
   // @ts-ignore
   const { currentPlay, playlistLength, dispatch } = props;
@@ -97,7 +98,7 @@ const PlayBar = (props: PlayBarProps) => {
       <Box
         sx={{
           position: 'fixed',
-          bottom: 0,
+          bottom: isMobile ? 54 : 0,
           left: sideWidth,
           right: 0,
           zIndex: 1200,
@@ -122,14 +123,16 @@ const PlayBar = (props: PlayBarProps) => {
             {
               currentPlay?.cover ? (
                 <Image
-                  alt="" src={currentPlay?.cover} width={74}
-                  height={74}
+                  alt=""
+                  src={currentPlay?.cover}
+                  width={isMobile ? 60 : 74}
+                  height={isMobile ? 60 : 74}
                 />
               ) : <div style={{ height: 64 }} />
             }
 
             <Stack justifyContent="center" sx={{ ml: 2, display: currentPlay ? 'inline-block' : 'none' }}>
-              <Typography variant="subtitle1">
+              <Typography variant="subtitle1" className="nowrap1">
                 {currentPlay?.name}
               </Typography>
 
@@ -139,29 +142,25 @@ const PlayBar = (props: PlayBarProps) => {
 
             </Stack>
 
-            <Stack sx={{ ml: 'auto', pr: 3 }} alignItems="center" justifyContent="center">
-
-              <Stack flexDirection="row" alignItems="center" justifyContent="center">
-
-                <div id="audio-duration" />
-
-                <div id="audio-volume-btn" />
+            <Stack sx={{ ml: 'auto', pr: isMobile ? 0 : 3 }} alignItems="center" justifyContent="center">
 
 
-                <ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={handleClickAway}>
-                  <div>
-                    <IconButton onClick={toggleShow}>
-                      <PlaylistPlayOutlinedIcon />
-                    </IconButton>
+                <Stack flexDirection="row" alignItems="center" justifyContent="center">
+                  <div id="audio-duration" style={{ display: isMobile ? 'none' : 'block' }} />
+                  <div id="audio-volume-btn" style={{ display: isMobile ? 'none' : 'block' }} />
+                  <ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={handleClickAway}>
+                    <div>
+                      <IconButton onClick={toggleShow}>
+                        <PlaylistPlayOutlinedIcon />
+                      </IconButton>
 
-                    <Portal container={() => document?.querySelector('#playlist')}>
-                      <Playlist />
-                    </Portal>
+                      <Portal container={() => document?.querySelector('#playlist')}>
+                        <Playlist isMobile={isMobile} />
+                      </Portal>
+                    </div>
+                  </ClickAwayListener>
+                </Stack>
 
-                  </div>
-                </ClickAwayListener>
-
-              </Stack>
             </Stack>
           </Stack>
 
@@ -173,10 +172,12 @@ const PlayBar = (props: PlayBarProps) => {
               right: 0,
               height: '100%',
               pointerEvents: 'none',
-              display: 'flex',
+              display: isMobile ? 'none' : 'flex',
               alignItems: 'center',
               justifyContent: 'center',
-              transition: 'all 0.2s ease'
+              transition: 'all 0.2s ease',
+              zIndex: isMobile ? -100 : 50
+
             }}
           >
             <Stack
@@ -195,6 +196,7 @@ const PlayBar = (props: PlayBarProps) => {
               </IconButton>
             </Stack>
           </Box>
+
         </Box>
       </Box>
 

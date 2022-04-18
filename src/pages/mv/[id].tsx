@@ -147,10 +147,10 @@ function Mv(props: MvProps) {
         ref={thisPageRootRef}
         sx={{
           mb: 10,
+          bgcolor: 'background.default',
           ...(isScreenFull && fullScreenStyles)
         }}
         className="no-scrollbar"
-
       >
         <Grid container spacing={4}>
           <Grid item md={isWidthFull ? 12 : ROW1} lg={isWidthFull ? 12 : ROW1} sm={12}>

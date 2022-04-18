@@ -31,7 +31,6 @@ type TracksItem = {
 
 function a11yProps(index: number) {
   return {
-    id: `simple-tab-${index}`,
     'aria-controls': `simple-tabpanel-${index}`
   };
 }
@@ -95,13 +94,13 @@ export const ItemRow = React.memo((props: ItemRowProps) => {
                 <Skeleton animation="wave" variant="text" />
               </TableCell>
               <TableCell align="center">
-                <Skeleton animation="wave" variant="text" />
+                <Skeleton animation="wave" variant="text" sx={{ display: { xs: 'none', md: 'block' } }} />
               </TableCell>
               <TableCell align="right">
-                <Skeleton animation="wave" variant="text" />
+                <Skeleton animation="wave" variant="text" sx={{ display: { xs: 'none', md: 'block' } }} />
               </TableCell>
               <TableCell align="right">
-                <Skeleton animation="wave" variant="text" />
+                <Skeleton animation="wave" variant="text" sx={{ display: { xs: 'none', md: 'block' } }} />
               </TableCell>
             </TableRow>
             <tr style={{ height: 8, display: 'block' }} />
@@ -121,7 +120,7 @@ export const ItemRow = React.memo((props: ItemRowProps) => {
             >
               {
                 typeof index === 'number' ? (
-                  <TableCell sx={{ width: 'unset' }} align="center">
+                  <TableCell sx={{ width: 'unset', px: { xs: 1, md: 2 } }} align="center">
                     <Typography variant="body2" color="text.secondary"> #&nbsp;{index + 1}</Typography>
                   </TableCell>
                 ) : null
@@ -129,7 +128,7 @@ export const ItemRow = React.memo((props: ItemRowProps) => {
 
               {
                 showCover ? (
-                  <TableCell sx={{ width: 80 }}>
+                  <TableCell sx={{ width: { xs: 'unset', md: 80 }, px: { xs: 1, md: 2 } }}>
                     <Image
                       alt={row?.al?.name}
                       className="songCover"
@@ -141,23 +140,25 @@ export const ItemRow = React.memo((props: ItemRowProps) => {
                 ) : <div style={{ height: 52 }} />
               }
 
-              <TableCell sx={{ width: 320 }}>
+              <TableCell sx={{ width: { xs: 'unset', md: 320 }, px: { xs: 1, md: 2 } }}>
                 <Typography className="nowrap2">
                   {row?.name}
                 </Typography>
-
               </TableCell>
-              <TableCell
-                align="left" sx={{ width: 300 }}
-              >
-                <Typography className="nowrap1" color="grey.500" fontSize={14}>
+
+              <TableCell align="left" sx={{ width: { xs: 'unset', md: 300 }, px: { xs: 1, md: 2 } }}>
+                <Typography className="nowrap1" color="grey.500" variant="body2">
                   {row?.ar.map(o => o.name).join(',')}
                 </Typography>
               </TableCell>
-              <TableCell align="left"><Typography>《 {row.al.name} 》</Typography></TableCell>
-              <TableCell align="center"><Typography
-                sx={{ minWidth: 160 }}
-              >{millisecond2Minute(row.dt)}</Typography></TableCell>
+
+              <TableCell align="left" sx={{ display: { xs: 'none', md: 'block' } }}>
+                <Typography>《 {row.al.name} 》</Typography>
+              </TableCell>
+
+              <TableCell align="center" sx={{ px: { xs: 1, md: 2 } }}>
+                <Typography sx={{ minWidth: { xs: 'unset', md: 160 } }}>{millisecond2Minute(row.dt)}</Typography>
+              </TableCell>
 
 
             </StyledTableRow>
@@ -182,9 +183,18 @@ function TimeTabs(props: TimeTabsProps) {
   return (
 
     <Tabs value={value} onChange={onChange}>
-      <Tab label="一天内" {...a11yProps(0)} value={19723756} />
-      <Tab label="一周内" {...a11yProps(1)} value={3779629} />
-      <Tab label="一个月内" {...a11yProps(2)} value={3778678} />
+      <Tab
+        sx={{ minWidth: { xs: 'unset', md: 90 } }} label={<Typography>一天内</Typography>} {...a11yProps(0)}
+        value={19723756}
+      />
+      <Tab
+        sx={{ minWidth: { xs: 'unset', md: 90 } }} label={<Typography>一周内</Typography>} {...a11yProps(1)}
+        value={3779629}
+      />
+      <Tab
+        sx={{ minWidth: { xs: 'unset', md: 90 } }} label={<Typography>一个月内</Typography>} {...a11yProps(2)}
+        value={3778678}
+      />
     </Tabs>
 
   );
@@ -244,13 +254,30 @@ function TopSongs() {
 
   };
 
-  console.log('render Topsongs');
 
   return (
     <>
 
-      <Stack sx={{ mb: 4, mt: 6 }} alignItems="center" flexDirection="row" justifyContent="flex-start">
+      <Stack
+        sx={{ mb: { xs: 0, md: 0 }, mt: 6, display: { xs: 'flex', md: 'none' } }} alignItems="center"
+        flexDirection="row"
+        justifyContent="flex-start"
+      >
         <Typography sx={{ mr: 3 }} variant="h6">最受欢迎</Typography>
+        <Button
+          onClick={onPlayAll}
+          disabled={!data}
+          size="small"
+          sx={{ borderRadius: 10, marginLeft: 'auto' }}
+          variant="contained"
+        >
+          播放全部
+        </Button>
+
+      </Stack>
+
+      <Stack sx={{ mb: 4, mt: { xs: 0, md: 6 } }} alignItems="center" flexDirection="row" justifyContent="flex-start">
+        <Typography sx={{ mr: 3, display: { xs: 'none', md: 'inline-block' } }} variant="h6">最受欢迎</Typography>
 
         <TabsTime value={value} onChange={handleChange} />
 
@@ -258,7 +285,7 @@ function TopSongs() {
           onClick={onPlayAll}
           disabled={!data}
           size="small"
-          sx={{ borderRadius: 10, marginLeft: 'auto' }}
+          sx={{ borderRadius: 10, marginLeft: 'auto', display: { xs: 'none', md: 'block' } }}
           variant="contained"
         >
           播放全部

@@ -6,6 +6,7 @@ import TopArtists from '../features/index/TopArtists';
 import TopSongs from '../features/index/TopSongs';
 import { request } from '../utils/utils';
 import PageLayout from '../components/PageLayout';
+import { Box, Stack, Typography } from '@mui/material';
 
 
 type HomeProps = {
@@ -23,6 +24,16 @@ const Home: NextPage<HomeProps> = (props) => {
       <Head>
         <title>Melody - 首页</title>
       </Head>
+
+      {/*<Stack>*/}
+      {/*  <Typography variant="h5">h5: 你好，哈哈哈1234567</Typography>*/}
+      {/*  <Typography variant="h6">h6: 你好，哈哈哈1234567</Typography>*/}
+      {/*  <Typography variant="subtitle1">subtitle1: 你好，哈哈哈1234567</Typography>*/}
+      {/*  <Typography variant="subtitle2">subtitle2: 你好，哈哈哈1234567</Typography>*/}
+      {/*  <Typography variant="body1">body1: 你好，哈哈哈1234567</Typography>*/}
+      {/*  <Typography variant="body2">body2: 你好，哈哈哈1234567</Typography>*/}
+      {/*  <Typography variant="caption">caption: 你好，哈哈哈1234567</Typography>*/}
+      {/*</Stack>*/}
 
       <PageLayout>
         <div style={{ marginBottom: 100 }}>

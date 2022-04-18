@@ -48,12 +48,14 @@ const StyledTableRow = ({
     }}
   />
 );
-type PlaylistProps = {}
+type PlaylistProps = {
+  isMobile?: boolean
+}
 
 function Playlist(props: PlaylistProps) {
 
   // @ts-ignore
-  const { show, playlist, dispatch, currentPlay } = props;
+  const { show, playlist, dispatch, currentPlay, isMobile } = props;
 
   // @ts-ignore
   const { id } = { ...currentPlay };

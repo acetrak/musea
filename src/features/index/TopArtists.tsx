@@ -44,7 +44,7 @@ const ArtistsCard = (props: { item: ArtistsItem, width: number }) => {
         <Box sx={{ borderRadius: 3, overflow: 'hidden' }}>
           <Image src={`${img1v1Url}?param=${WIDTH}y${WIDTH}`} width={width} height={width} alt={name} />
         </Box>
-        <Box sx={{ p: 1 }}>
+        <Box sx={{ py: 1 }}>
           <Typography sx={{ fontWeight: 'bold' }} color="text.primary" variant="subtitle1">{name}</Typography>
         </Box>
       </CardActionArea>
@@ -67,13 +67,13 @@ function TopArtists(props: TopArtistsProps) {
   const count = useMemo(() => {
     switch (key) {
       case 'xl':
-        return 8;
+        return 9;
       case 'lg':
-        return 6;
+        return 9;
       case 'md':
         return 6;
       case 'sm':
-        return 4;
+        return 5;
       case 'xs':
         return 4;
       default:

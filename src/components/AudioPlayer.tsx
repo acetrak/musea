@@ -241,35 +241,39 @@ const AudioPlayer = React.forwardRef(function AudioPlayer(props: AudioPlayerProp
   return (
     <>
 
-      <Box
-        sx={{
-          position: 'absolute',
-          left: 0,
-          top: -12,
-          right: 0
-        }}
-      >
+
         <Slider
           sx={{
-            position: 'relative',
+            position: 'absolute',
+            left: 0,
+            top: -14,
+            right: 0,
+            fontSize: 0,
             zIndex: 2
           }}
-          onMouseDown={onMouseDown} onMouseUp={onMouseUp} onChange={onSliderChange} size="small"
-          value={playedSeconds || 0} max={duration} min={0} step={0.01}
+          onMouseDown={onMouseDown}
+          onMouseUp={onMouseUp}
+          onChange={onSliderChange}
+          size="small"
+          value={playedSeconds || 0}
+          max={duration}
+          min={0}
+          step={0.01}
         />
         <LinearProgress
           sx={{
             position: 'absolute',
             left: 0,
-            top: 12,
+            top: 0,
             right: 0,
             zIndex: 1,
+
             [`& .${linearProgressClasses.dashed}`]: {
               display: 'none'
             }
           }} variant="buffer" value={played * 100} valueBuffer={loaded * 100}
         />
-      </Box>
+
       {/*@ts-ignore*/}
       <ReactPlayer
         ref={player}

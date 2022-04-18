@@ -13,7 +13,7 @@ const About: NextPage = (props) => {
       <Head>
         <title>Melody - 关于</title>
       </Head>
-      <div>
+      <Box sx={{ p: 2 }}>
         <Typography variant="h5" mt="20vh" color="grey.400">
           关于本站
         </Typography>
@@ -27,7 +27,7 @@ const About: NextPage = (props) => {
         <Typography color="grey.500">Power By <Link
           href="https://nextjs.org/" target="_blank"
         >Nextjs</Link></Typography>
-      </div>
+      </Box>
     </PageLayout>
 
   );

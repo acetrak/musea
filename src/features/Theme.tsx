@@ -1,10 +1,10 @@
 import * as React from 'react';
 
-import { CssBaseline, responsiveFontSizes, ThemeProvider } from '@mui/material';
+import { CssBaseline, ThemeProvider,  } from '@mui/material';
 import { connect } from 'react-redux';
 // import { Dispatch } from 'redux';
 
-import { darkTheme, lightTheme } from '../styles/theme';
+import { darkTheme, lightTheme,responsiveFontSizes } from '../styles/theme';
 
 
 type ThemeProps = {
