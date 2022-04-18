@@ -12,29 +12,31 @@ import { changeThemeMode } from '../store/setting/action';
 import { State } from '../store';
 
 
-type  ToggleModeProps = {}
+type  ToggleModeProps = {
+  color?: string
+}
 
 function ToggleMode(props: ToggleModeProps) {
 
 
   // @ts-ignore
-  const { toggle, mode } = props;
+  const { toggle, mode, color } = props;
 
   const click = React.useCallback(() => {
     toggle();
   }, [toggle]);
 
   return (
-    <Box sx={{ position: 'relative', width: 40, height: 40 }}>
+    <Box sx={{ position: 'relative', width: 40, height: 40, color: color || 'text.primary' }}>
       <Zoom in={mode === 'dark'} unmountOnExit>
-        <IconButton onClick={click} sx={{ position: 'absolute', top: 0, left: 0 }}>
-          <LightModeIcon />
+        <IconButton onClick={click} sx={{ position: 'absolute', top: 0, left: 0, color: 'inherit' }}>
+          <LightModeIcon color="inherit" />
         </IconButton>
       </Zoom>
 
       <Zoom in={mode === 'light'} unmountOnExit>
-        <IconButton onClick={click} sx={{ position: 'absolute', top: 0, left: 0 }}>
-          <DarkModeIcon />
+        <IconButton onClick={click} sx={{ position: 'absolute', top: 0, left: 0, color: 'inherit' }}>
+          <DarkModeIcon color="inherit" />
         </IconButton>
       </Zoom>
     </Box>

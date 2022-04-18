@@ -161,7 +161,11 @@ const BasicLayout = (props: BasicLayoutProps) => {
 
         <Box
           id="main"
-          style={{ marginLeft: `${sideWidth}px`, transition: 'all 0.1s ' }}
+          style={{
+            marginLeft: `${sideWidth}px`,
+            transition: 'all 0.1s ',
+            paddingBottom: isMobile ? 60 : 0
+          }}
         >
           {/*<Box sx={{ py: 3, position: 'sticky', top: 0, borderRadius: 0 }}>*/}
           {/*  <Box sx={{ position: 'absolute', left: 8 }}>*/}
@@ -182,17 +186,16 @@ const BasicLayout = (props: BasicLayoutProps) => {
 
           {props.children}
 
-          <PlayBar isMobile={isMobile} sideWidth={sideWidth} hide={hideAudio} />
-          {
-            isMobile && (<BottomNavBar />)
-          }
 
         </Box>
       </Box>
 
       <div id="playlist" />
-      <ScrollTop />
-
+      <ScrollTop isMobile={isMobile}/>
+      <PlayBar isMobile={isMobile} sideWidth={sideWidth} hide={hideAudio} />
+      {
+        isMobile && (<BottomNavBar />)
+      }
 
     </>
   );

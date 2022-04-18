@@ -44,28 +44,28 @@ export const responsiveFontSizes = (theme: Theme) => {
   };
   theme.typography.subtitle1 = {
     ...theme.typography.subtitle1,
-    fontSize: '0.85rem',
+    fontSize: '0.875rem',
     [theme.breakpoints.up('md')]: {
       fontSize: '1rem'
     }
   };
   theme.typography.subtitle2 = {
     ...theme.typography.subtitle2,
-    fontSize: '0.82rem',
+    fontSize: '0.875rem',
     [theme.breakpoints.up('md')]: {
       fontSize: '0.875rem'
     }
   };
   theme.typography.body1 = {
     ...theme.typography.body1,
-    fontSize: '0.8rem',
+    fontSize: '0.875rem',
     [theme.breakpoints.up('md')]: {
       fontSize: '1rem'
     }
   };
   theme.typography.body2 = {
     ...theme.typography.body2,
-    fontSize: '0.7rem',
+    fontSize: '0.875rem',
     [theme.breakpoints.up('md')]: {
       fontSize: '0.875rem'
     }
@@ -83,8 +83,8 @@ export const responsiveFontSizes = (theme: Theme) => {
 const common = {
   palette: {
     primary: {
-      main: '#25bc7c'
-    }
+      main: '#4b6dca'
+    },
   },
   typography: {
     fontFamily: `'Noto Sans SC', sans-serif`,

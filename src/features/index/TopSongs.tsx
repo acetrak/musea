@@ -7,6 +7,7 @@ import TableRow from '@mui/material/TableRow';
 import { Box, Button, Skeleton, Stack, Tab, TableRowProps, Tabs, Theme, Typography } from '@mui/material';
 import useSWR from 'swr';
 import { get } from 'lodash';
+import NextImage from 'next/image';
 
 import { fetcher, millisecond2Minute } from '../../utils/utils';
 import { Image } from '../../components';
@@ -93,14 +94,15 @@ export const ItemRow = React.memo((props: ItemRowProps) => {
               >
                 <Skeleton animation="wave" variant="text" />
               </TableCell>
-              <TableCell align="center">
-                <Skeleton animation="wave" variant="text" sx={{ display: { xs: 'none', md: 'block' } }} />
+              <TableCell align="center" sx={{ width: 246 }}>
+                <Skeleton animation="wave" variant="text" />
               </TableCell>
-              <TableCell align="right">
-                <Skeleton animation="wave" variant="text" sx={{ display: { xs: 'none', md: 'block' } }} />
+
+              <TableCell align="right" sx={{ display: { xs: 'none', md: 'table-cell' } }}>
+                <Skeleton animation="wave" variant="text" />
               </TableCell>
-              <TableCell align="right">
-                <Skeleton animation="wave" variant="text" sx={{ display: { xs: 'none', md: 'block' } }} />
+              <TableCell align="right" sx={{ display: { xs: 'none', md: 'table-cell' } }}>
+                <Skeleton animation="wave" variant="text" />
               </TableCell>
             </TableRow>
             <tr style={{ height: 8, display: 'block' }} />
@@ -128,14 +130,23 @@ export const ItemRow = React.memo((props: ItemRowProps) => {
 
               {
                 showCover ? (
-                  <TableCell sx={{ width: { xs: 'unset', md: 80 }, px: { xs: 1, md: 2 } }}>
-                    <Image
-                      alt={row?.al?.name}
-                      className="songCover"
-                      src={row?.al?.picUrl + '?param=40y40'}
-                      width={40}
-                      height={40}
-                    />
+                  <TableCell sx={{ width: { xs: 'unset', md: 80 }, px: { xs: 1, md: 2 }, fontSize: 0 }}>
+                    <Box
+                      sx={{
+                        overflow: 'hidden',
+                        borderRadius: 2,
+                        width: 40,
+                        height: 40
+                      }}
+                    >
+                      <Image
+                        alt={row?.al?.name}
+
+                        src={row?.al?.picUrl + '?param=40y40'}
+                        width={40}
+                        height={40}
+                      />
+                    </Box>
                   </TableCell>
                 ) : <div style={{ height: 52 }} />
               }

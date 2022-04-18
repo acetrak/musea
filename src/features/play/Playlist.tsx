@@ -72,94 +72,115 @@ function Playlist(props: PlaylistProps) {
   };
 
   return (
-    <Slide in={show} direction="left">
+    <>
+      <Slide in={show} direction="left">
 
-      <Paper
+        <Paper
 
-        sx={{
-          position: 'fixed',
-          top: 20,
-          right: 20,
-          bottom: 20 + 64,
-          width: 500,
-          // backdropFilter: 'blur(20px)',
-          zIndex: 1200,
-          borderRadius: 1,
-          p: 3,
-          display: 'flex',
-          flexDirection: 'column'
-        }}
-      >
-
-        <Typography variant="h6" gutterBottom>
-          当前播放
-        </Typography>
-
-        {
-          playlist.length ? (
-            <Stack sx={{ mb: 1 }} flexDirection="row" alignItems="center" justifyContent="space-between">
-              <Typography color="text.secondary">
-                共{playlist.length}首
-              </Typography>
-
-              <Button onClick={onClear}>清除所有</Button>
-            </Stack>
-          ) : null
-        }
-
-        <Divider />
-
-        <Box
-          className="no-scrollbar"
           sx={{
-            flex: 1,
-            overflowY: 'auto'
+            position: 'fixed',
+            top: isMobile ? 10 : 20,
+            right: isMobile ? 10 : 20,
+            bottom: isMobile ? 130 : 84,
+            left: isMobile ? 10 : 'unset',
+            width: isMobile ? 'unset' : 500,
+            // backdropFilter: 'blur(20px)',
+            zIndex: 1200,
+            borderRadius: 1,
+            p: 3,
+            display: 'flex',
+            flexDirection: 'column'
           }}
         >
 
+          <Typography variant="h6" gutterBottom>
+            当前播放
+          </Typography>
 
-          <TableContainer sx={{ overflowX: 'hidden', overflowY: 'auto' }}>
-            <Table>
+          {
+            playlist.length ? (
+              <Stack sx={{ mb: 1 }} flexDirection="row" alignItems="center" justifyContent="space-between">
+                <Typography color="text.secondary">
+                  共{playlist.length}首
+                </Typography>
 
-              <TableBody>
-                {
-                  playlist
-                    .map((row: PlaylistItem, index: number) => (
-                      <React.Fragment key={`${row.id}_${index}`}>
-                        <StyledTableRow current={id} item={row} onClick={() => play(row)}>
+                <Button onClick={onClear}>清除所有</Button>
+              </Stack>
+            ) : null
+          }
 
-                          <TableCell align="left">
-                            <Typography className="nowrap1" color="text.secondary" sx={{ maxWidth: 200 }}>
-                              {row?.name}
-                            </Typography>
-                          </TableCell>
+          <Divider />
 
-                          <TableCell align="left">
-                            <Typography className="nowrap1" color="text.secondary" fontSize={14}>
-                              {row?.ar}
-                            </Typography>
-                          </TableCell>
-
-
-                          <TableCell
-                            align="right"
-                          >
-                            <Typography color="text.secondary">{millisecond2Minute(row.dt)}</Typography>
-                          </TableCell>
-
-                        </StyledTableRow>
-                      </React.Fragment>
-                    ))
-                }
-
-              </TableBody>
-            </Table>
-          </TableContainer>
+          <Box
+            className="no-scrollbar"
+            sx={{
+              flex: 1,
+              overflowY: 'auto'
+            }}
+          >
 
 
-        </Box>
-      </Paper>
-    </Slide>
+            <TableContainer sx={{ overflowX: 'hidden', overflowY: 'auto' }}>
+              <Table>
+
+                <TableBody>
+                  {
+                    playlist
+                      .map((row: PlaylistItem, index: number) => (
+                        <React.Fragment key={`${row.id}_${index}`}>
+                          <StyledTableRow current={id} item={row} onClick={() => play(row)}>
+
+                            <TableCell align="left">
+                              <Typography className="nowrap1" color="text.secondary" sx={{ maxWidth: 200 }}>
+                                {row?.name}
+                              </Typography>
+                            </TableCell>
+
+                            <TableCell align="left">
+                              <Typography className="nowrap1" color="text.secondary" fontSize={14}>
+                                {row?.ar}
+                              </Typography>
+                            </TableCell>
+
+
+                            <TableCell
+                              align="right"
+                            >
+                              <Typography color="text.secondary">{millisecond2Minute(row.dt)}</Typography>
+                            </TableCell>
+
+                          </StyledTableRow>
+                        </React.Fragment>
+                      ))
+                  }
+
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+
+          </Box>
+        </Paper>
+      </Slide>
+
+      {
+        isMobile && show && (
+          <Box
+            sx={{
+              backdropFilter: 'blur(20px)',
+              position: 'fixed',
+              top: 0,
+              right: 0,
+              bottom: 0,
+              left: 0
+            }}
+          >
+
+          </Box>
+        )
+      }
+
+    </>
   );
 
 }

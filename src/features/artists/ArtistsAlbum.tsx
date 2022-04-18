@@ -7,7 +7,7 @@ import { useMemo } from 'react';
 
 import { AlbumCard } from '../../components';
 import { AlbumsItem } from '../../components/AlbumCard';
-import { fetcher } from '../../utils/utils';
+import { fetcher, getIsMobile } from '../../utils/utils';
 import { bindActionCreators, Dispatch } from 'redux';
 import { setPage, setRowsPerPage } from '../../store/artists/action';
 import useMediaQueryKey from '../../hooks/useMediaQueryKey';
@@ -44,13 +44,15 @@ function ArtistsAlbum(props: ArtistsAlbumProps) {
       case 'md':
         return 3;
       case 'sm':
-        return 2;
+        return 1;
       case 'xs':
-        return 2;
+        return 1;
       default:
-        return 2;
+        return 1;
     }
   }, [key]);
+
+  const isMobile = getIsMobile(key);
 
 
   const var_albums: AlbumsItem[] = React.useMemo(() => albums.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage), [
@@ -68,7 +70,7 @@ function ArtistsAlbum(props: ArtistsAlbumProps) {
 
   if (!data) return (
 
-    <ImageList cols={cols} gap={30}>
+    <ImageList cols={cols} gap={isMobile?10:30}>
       {
         [0, 1, 2, 3, 4, 5].map((_, index) => (
           <ImageListItem key={index}>
@@ -85,7 +87,7 @@ function ArtistsAlbum(props: ArtistsAlbumProps) {
 
       <Box>
 
-        <ImageList cols={cols} gap={30}>
+        <ImageList cols={cols} gap={isMobile?10:30}>
           {var_albums.map((item) => (
             <ImageListItem key={item.id}>
               <AlbumCard album={item} />
@@ -95,8 +97,8 @@ function ArtistsAlbum(props: ArtistsAlbumProps) {
 
         <Box py={2}>
           <TablePagination
-            showFirstButton
-            showLastButton
+            showFirstButton={!isMobile}
+            showLastButton={!isMobile}
             labelRowsPerPage="每页"
             labelDisplayedRows={defaultLabelDisplayedRows}
             rowsPerPageOptions={[12, 30, 60]}

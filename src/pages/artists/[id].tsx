@@ -1,4 +1,4 @@
-import { Box, Button, ButtonProps, Container, Stack, Tab, Tabs, Typography } from '@mui/material';
+import { Box, Button, ButtonProps, Stack, Tab, Tabs, Theme, Typography, alpha } from '@mui/material';
 import * as React from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import Head from 'next/head';
@@ -6,15 +6,20 @@ import { useRouter } from 'next/router';
 import { get } from 'lodash';
 import loadable from '@loadable/component';
 import { connect } from 'react-redux';
+import NextImage from 'next/image';
+
 
 import { Image } from '../../components';
-import { request } from '../../utils/utils';
+import { getIsMobile, request } from '../../utils/utils';
 import { Dispatch } from 'redux';
 import { setArtistID, setState } from '../../store/artists/action';
 import { playAll } from '../../store/play/action';
 import PageLayout from '../../components/PageLayout';
 import { SongsItem } from '../../features/artists/ArtistsSongs';
 import { PlaylistItem } from '../../store/play/reducer';
+import useMediaQueryKey from '../../hooks/useMediaQueryKey';
+import { useCallback } from 'react';
+import MobileTabs from '../../components/MobileTabs';
 
 const ArtistsSongsAsync = loadable(() => import(`../../features/artists/ArtistsSongs`));
 const ArtistsStoryAsync = loadable(() => import(`../../features/artists/ArtistsStory`));
@@ -42,27 +47,93 @@ const TabPanel = (props: any) => {
   );
 };
 
+type MobileHead = {
+  detail: Detail
+}
+const MobileHead = (props: MobileHead) => {
+
+  const { detail } = props;
+  return (
+    <>
+      <Box
+        sx={{
+          width: '90vw',
+          overflow: 'hidden',
+          mx: 'auto',
+          borderRadius: 10,
+          position: 'relative'
+
+        }}
+      >
+        <Box
+          sx={{
+            transform: 'scale(1)'
+
+          }}
+        >
+          <NextImage
+            alt={detail?.artist?.name}
+            src={detail?.artist?.cover + '?param=400y400'}
+            layout="responsive"
+            width={300}
+            height={300}
+          />
+        </Box>
+
+        <Box
+          sx={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            py: 3,
+            px: 2, zIndex: 30
+          }}
+        >
+          <Typography align="center" gutterBottom variant="h5">{detail?.artist.name}</Typography>
+          <Typography align="center" className="nowrap1" variant="subtitle1" gutterBottom color="text.secondary">
+            {detail?.identify?.imageDesc}
+          </Typography>
+        </Box>
+      </Box>
+      <Box
+        sx={{
+          mt: '-50%',
+          width: '100%',
+          pt: '50%',
+          position: 'relative',
+          zIndex: 20,
+          backgroundImage: (theme: Theme) => `linear-gradient(to top, ${theme.palette.background.default} 30%,transparent 80%)`
+        }}
+      >
+
+      </Box>
+    </>
+  );
+};
+
 const StyledButton = (props: ButtonProps) => (
   <Button {...props} sx={{ width: 100, borderRadius: 20 }} />
 );
 
+type Detail = {
+  artist: {
+    cover: string
+    briefDesc: string
+    name: string
+    id: number
+  }
+  identify: {
+    imageDesc: string
+  }
+  secondaryExpertIdentiy: Array<{
+    expertIdentiyId: number
+    expertIdentiyName: string
+    expertIdentiyCount: number
+  }>
+}
 type ArtistsProps = {
-  detail: {
-    artist: {
-      cover: string
-      briefDesc: string
-      name: string
-      id: number
-    }
-    identify: {
-      imageDesc: string
-    }
-    secondaryExpertIdentiy: Array<{
-      expertIdentiyId: number
-      expertIdentiyName: string
-      expertIdentiyCount: number
-    }>
-  },
+  detail: Detail
   songs: Array<SongsItem>
   showBack: boolean
   artistId: number
@@ -140,75 +211,99 @@ const Artists = (props: ArtistsProps) => {
 
   };
 
+  const key = useMediaQueryKey();
+
+  const isMobile = getIsMobile(key);
+
+  const onSwipeableViewsChange = useCallback((val) => {
+
+    console.log(val);
+
+  }, []);
 
   return (
     <PageLayout>
       <Head>
-        <title>歌手 - {detail.artist.name}</title>
+        <title>歌手 - {detail?.artist?.name}</title>
       </Head>
 
-      <Box sx={{ display: 'flex' }}>
-        <Box sx={{ position: 'relative', borderRadius: 2, overflow: 'hidden', fontSize: 0 }}>
-          <Image
-            alt={detail?.artist?.name}
-            src={detail?.artist?.cover + '?param=200y280'}
-            width={200}
-            height={280}
-          />
-        </Box>
-        <Box sx={{ ml: 3, py: 2, flex: 1 }}>
-          <Typography variant="h3" gutterBottom>
-            {detail?.artist?.name}
-          </Typography>
+      {
+        isMobile ? <MobileHead detail={detail} /> : (
+          <Box sx={{ display: 'flex' }}>
+            <Box sx={{ position: 'relative', borderRadius: 2, overflow: 'hidden', fontSize: 0 }}>
+              <Image
+                alt={detail?.artist?.name}
+                src={detail?.artist?.cover + '?param=200y280'}
+                width={200}
+                height={280}
+              />
+            </Box>
+            <Box sx={{ ml: 3, py: 2, flex: 1 }}>
+              <Typography variant="h3" gutterBottom>
+                {detail?.artist?.name}
+              </Typography>
 
-          <Typography className="nowrap1" variant="subtitle1" gutterBottom color="text.secondary">
-            {detail?.identify?.imageDesc}
-          </Typography>
+              <Typography className="nowrap1" variant="subtitle1" gutterBottom color="text.secondary">
+                {detail?.identify?.imageDesc}
+              </Typography>
 
-          <Box
-            sx={{
-              minHeight: 84
-            }}
-          >
-            <Typography className="nowrap2" variant="subtitle1" color="grey.500">
-              {detail?.artist?.briefDesc}
-            </Typography>
+              <Box
+                sx={{
+                  minHeight: 84
+                }}
+              >
+                <Typography className="nowrap2" variant="subtitle1" color="grey.500">
+                  {detail?.artist?.briefDesc}
+                </Typography>
 
+              </Box>
+              <Stack direction="row" spacing={2} mt={4}>
+                <StyledButton variant="contained" onClick={onPlayAll}>播放全部</StyledButton>
+
+              </Stack>
+
+            </Box>
           </Box>
-          <Stack direction="row" spacing={2} mt={4}>
-            <StyledButton variant="contained" onClick={onPlayAll}>播放全部</StyledButton>
-
-          </Stack>
-
-        </Box>
-      </Box>
+        )
+      }
 
       <Box>
-        <Box mt={4} sx={{ borderBottom: 1, borderColor: 'divider' }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            textColor="inherit"
-          >
-            <Tab label="歌手单曲" sx={{ width: 150 }} />
-            <Tab label="歌手故事" sx={{ width: 150 }} />
-            <Tab label="歌手专辑" sx={{ width: 150 }} />
-            <Tab label="歌手MV" sx={{ width: 150 }} />
-          </Tabs>
-        </Box>
+        {
+          isMobile ? (
+            <Box py={2}>
+              <MobileTabs
+                textColor="#fff" value={value} onChange={handleChange} items={['歌手单曲', '歌手故事', '歌手专辑', '歌手MV']}
+              />
+            </Box>
+          ) : (
+            <Box mt={4} sx={{ borderBottom: 1, borderColor: 'divider' }}>
+              <Tabs
+                value={value}
+                onChange={handleChange}
+                textColor="inherit"
+                scrollButtons="auto"
+              >
+                <Tab label="歌手单曲" sx={{ width: 150 }} />
+                <Tab label="歌手故事" sx={{ width: 150 }} />
+                <Tab label="歌手专辑" sx={{ width: 150 }} />
+                <Tab label="歌手MV" sx={{ width: 150 }} />
+              </Tabs>
+            </Box>
+          )
+        }
+
 
         <Box
-
           sx={{
             minHeight: 800,
             mb: 5
           }}
         >
 
-
           <SwipeableViews
             axis="x"
             index={value}
+            onChange={onSwipeableViewsChange}
           >
             <TabPanel value={value} index={0} dir="x">
               <ArtistsSongsAsync songs={props.songs} />

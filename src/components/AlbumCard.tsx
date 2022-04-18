@@ -57,14 +57,15 @@ const AlbumCard = (props: AlbumCardProps) => {
           top: 0,
           left: 0,
           width: '100%',
-          height: '100%'
+          height: '100%',
+
         }}
       >
         <div style={{ position: 'relative', width: 480, height: IMG_HEIGHT }}>
           <NextImage
             alt={album.name}
             src={`${album.picUrl}?param=480y${IMG_HEIGHT}`}
-            width={480}
+            width={470}
             height={IMG_HEIGHT}
             {...bgProps}
           />
@@ -77,7 +78,8 @@ const AlbumCard = (props: AlbumCardProps) => {
           color: '#ccc',
           display: 'flex',
           flexDirection: 'row',
-          alignItems: 'stretch'
+          alignItems: 'stretch',
+          fontSize:0
         }}
       >
         <Image

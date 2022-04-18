@@ -5,7 +5,7 @@ import * as React from 'react';
 import { connect } from 'react-redux';
 import { useMemo } from 'react';
 
-import { fetcher } from '../../utils/utils';
+import { fetcher, getIsMobile } from '../../utils/utils';
 import { bindActionCreators, Dispatch } from 'redux';
 import { setPage, setRowsPerPage } from '../../store/artists/action';
 import MvCard from '../../components/MvCard';
@@ -50,6 +50,8 @@ function ArtistsMV(props: ArtistsAlbumProps) {
 
   const key = useMediaQueryKey();
 
+  const isMobile = getIsMobile(key);
+
   const cols = useMemo(() => {
     switch (key) {
       case 'xl':
@@ -82,7 +84,7 @@ function ArtistsMV(props: ArtistsAlbumProps) {
 
   if (!data) return (
 
-    <ImageList cols={cols} gap={30}>
+    <ImageList cols={cols} gap={isMobile ? 10 : 30}>
       {
         [0, 1, 2, 3, 4, 5].map((_, index) => (
           <ImageListItem key={index}>
@@ -98,7 +100,7 @@ function ArtistsMV(props: ArtistsAlbumProps) {
 
       <Box>
 
-        <ImageList cols={cols} gap={30}>
+        <ImageList cols={cols} gap={isMobile ? 10 : 30}>
           {var_mvs.map((item) => (
             <ImageListItem key={item.id}>
               <MvCard mv={item} />
@@ -110,8 +112,10 @@ function ArtistsMV(props: ArtistsAlbumProps) {
           mvs.length ? (
             <Box py={2}>
               <TablePagination
-                showFirstButton
-                showLastButton
+                size="small"
+                showFirstButton={!isMobile}
+                showLastButton={!isMobile}
+
                 labelRowsPerPage="每页"
                 labelDisplayedRows={defaultLabelDisplayedRows}
                 rowsPerPageOptions={[12, 30, 60]}

@@ -34,7 +34,7 @@ function MobileHeader() {
           <Toolbar>
             <Stack direction="row" sx={{flex:1}} alignItems="center" justifyContent="space-between">
               <Logo />
-              <ToggleMode />
+              <ToggleMode color="#fff"/>
             </Stack>
           </Toolbar>
         </AppBar>

@@ -109,7 +109,7 @@ const PlayBar = (props: PlayBarProps) => {
         }}
       >
 
-        <AudioPlayer url={url} ref={audioRef} onEnded={onEnded} onError={onError} />
+        <AudioPlayer isMobile={isMobile} url={url} ref={audioRef} onEnded={onEnded} onError={onError} />
 
 
         <Box
@@ -132,11 +132,11 @@ const PlayBar = (props: PlayBarProps) => {
             }
 
             <Stack justifyContent="center" sx={{ ml: 2, display: currentPlay ? 'inline-block' : 'none' }}>
-              <Typography variant="subtitle1" className="nowrap1">
+              <Typography variant="subtitle1" sx={{ maxWidth: isMobile ? 140 : 'unset' }} className="nowrap1">
                 {currentPlay?.name}
               </Typography>
 
-              <Typography color="text.secondary" sx={{ maxWidth: 200 }} className="nowrap1">
+              <Typography color="text.secondary" sx={{ maxWidth: isMobile ? 120 : 200 }} className="nowrap1">
                 {currentPlay?.ar}
               </Typography>
 
@@ -144,58 +144,67 @@ const PlayBar = (props: PlayBarProps) => {
 
             <Stack sx={{ ml: 'auto', pr: isMobile ? 0 : 3 }} alignItems="center" justifyContent="center">
 
+              <Stack flexDirection="row" alignItems="center" justifyContent="center">
+                <div id="audio-duration" style={{ display: isMobile ? 'none' : 'block' }} />
+                <div id="audio-volume-btn" style={{ display: isMobile ? 'none' : 'block' }} />
+                {
+                  isMobile && (
+                    <div id="audio-play-btn" />
+                  )
+                }
+                <ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={handleClickAway}>
+                  <div>
+                    <IconButton onClick={toggleShow}>
+                      <PlaylistPlayOutlinedIcon />
+                    </IconButton>
 
-                <Stack flexDirection="row" alignItems="center" justifyContent="center">
-                  <div id="audio-duration" style={{ display: isMobile ? 'none' : 'block' }} />
-                  <div id="audio-volume-btn" style={{ display: isMobile ? 'none' : 'block' }} />
-                  <ClickAwayListener mouseEvent="onMouseDown" touchEvent="onTouchStart" onClickAway={handleClickAway}>
-                    <div>
-                      <IconButton onClick={toggleShow}>
-                        <PlaylistPlayOutlinedIcon />
-                      </IconButton>
-
-                      <Portal container={() => document?.querySelector('#playlist')}>
-                        <Playlist isMobile={isMobile} />
-                      </Portal>
-                    </div>
-                  </ClickAwayListener>
-                </Stack>
+                    <Portal container={() => document?.querySelector('#playlist')}>
+                      <Playlist isMobile={isMobile} />
+                    </Portal>
+                  </div>
+                </ClickAwayListener>
+              </Stack>
 
             </Stack>
           </Stack>
 
-          <Box
-            sx={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '100%',
-              pointerEvents: 'none',
-              display: isMobile ? 'none' : 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              transition: 'all 0.2s ease',
-              zIndex: isMobile ? -100 : 50
+          {
+            !isMobile && (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: 0,
+                  left: 0,
+                  right: 0,
+                  height: '100%',
+                  pointerEvents: 'none',
+                  display: isMobile ? 'none' : 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: 'all 0.2s ease',
+                  zIndex: isMobile ? -100 : 50
 
-            }}
-          >
-            <Stack
-              sx={{ height: '100%', pointerEvents: 'auto' }} flexDirection="row" alignItems="center"
-              justifyContent="center"
-            >
+                }}
+              >
+                <Stack
+                  sx={{ height: '100%', pointerEvents: 'auto' }} flexDirection="row" alignItems="center"
+                  justifyContent="center"
+                >
 
-              <IconButton onClick={prev}>
-                <SkipPreviousOutlinedIcon />
-              </IconButton>
+                  <IconButton onClick={prev}>
+                    <SkipPreviousOutlinedIcon />
+                  </IconButton>
 
-              <div id="audio-play-btn" />
+                  <div id="audio-play-btn" />
 
-              <IconButton onClick={next}>
-                <SkipNextOutlinedIcon />
-              </IconButton>
-            </Stack>
-          </Box>
+                  <IconButton onClick={next}>
+                    <SkipNextOutlinedIcon />
+                  </IconButton>
+                </Stack>
+              </Box>
+            )
+          }
+
 
         </Box>
       </Box>

@@ -13,9 +13,10 @@ import {
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
 
-import { millisecond2Minute } from '../../utils/utils';
+import { getIsMobile, millisecond2Minute } from '../../utils/utils';
 import { PlaylistItem } from '../../store/play/reducer';
 import { addPlaylist } from '../../store/play/action';
+import useMediaQueryKey from '../../hooks/useMediaQueryKey';
 
 
 function defaultLabelDisplayedRows({ from, to, count }: { from: number, to: number, count: number }) {
@@ -70,6 +71,10 @@ function ArtistsSongs(props: ArtistsSongsProps) {
     addPlaylist(row)(dispatch);
 
   };
+
+  const key = useMediaQueryKey();
+  const isMobile = getIsMobile(key);
+
   return (
 
     <>
@@ -77,11 +82,23 @@ function ArtistsSongs(props: ArtistsSongsProps) {
         <Table>
           <TableHead>
             <TableRow>
-              <TableCell align="center"><Typography color="grey.500">#</Typography></TableCell>
-              <TableCell align="left"><Typography color="grey.500">歌曲</Typography></TableCell>
-              <TableCell align="left"><Typography color="grey.500">歌手</Typography></TableCell>
-              <TableCell align="left"><Typography color="grey.500">专辑</Typography></TableCell>
-              <TableCell align="left"><Typography color="grey.500">时长</Typography></TableCell>
+              <TableCell sx={{ px: { xs: 1, md: 2 } }} align="center"><Typography
+                color="grey.500"
+              >#</Typography></TableCell>
+              <TableCell sx={{ px: { xs: 1, md: 2 } }} align="left"><Typography
+                color="grey.500"
+              >歌曲</Typography></TableCell>
+              {
+                !isMobile ? (
+                  <TableCell align="left"><Typography color="grey.500">歌手</Typography></TableCell>
+                ) : null
+              }
+              <TableCell sx={{ px: { xs: 1, md: 2 } }} align="left"><Typography
+                color="grey.500"
+              >专辑</Typography></TableCell>
+              <TableCell sx={{ px: { xs: 1, md: 2 } }} align="left"><Typography
+                color="grey.500"
+              >时长</Typography></TableCell>
             </TableRow>
           </TableHead>
 
@@ -93,27 +110,32 @@ function ArtistsSongs(props: ArtistsSongsProps) {
                   <React.Fragment key={`${row.id}_${index}_`}>
                     <TableRow hover sx={{ cursor: 'pointer' }} onClick={() => play(row)}>
 
-                      <TableCell align="center" sx={{ width: 60 }}>
+                      <TableCell align="center" sx={{ width: {xs:'unset',md:60}, px: { xs: 1, md: 2 } }}>
                         {row._index}
                       </TableCell>
 
-                      <TableCell align="left">
+                      <TableCell align="left" sx={{ px: { xs: 1, md: 2 } }}>
                         <Typography>
                           {row?.name}
                         </Typography>
                       </TableCell>
 
-                      <TableCell align="left">
-                        <Typography className="nowrap1" sx={{ maxWidth: 400 }} color="grey.500" fontSize={14}>
-                          {row?.ar.map(o => o.name).join(' , ')}
-                        </Typography>
-                      </TableCell>
+                      {
+                        isMobile ? null : (
+                          <TableCell align="left" sx={{ px: { xs: 1, md: 2 } }}>
+                            <Typography className="nowrap1" sx={{ maxWidth: 400 }} color="grey.500" fontSize={14}>
+                              {row?.ar.map(o => o.name).join(' , ')}
+                            </Typography>
+                          </TableCell>
+                        )
+                      }
 
-                      <TableCell align="left">
+
+                      <TableCell align="left" sx={{ px: { xs: 1, md: 2 } }}>
                         <Typography>《 {row.al.name} 》</Typography>
                       </TableCell>
                       <TableCell
-                        align="left" sx={{ width: 200 }}
+                        align="left" sx={{ width: {xs:'unset',md:200}, px: { xs: 1, md: 2 } }}
                       ><Typography color="grey.500">{millisecond2Minute(row.dt)}</Typography></TableCell>
 
                     </TableRow>
@@ -127,8 +149,8 @@ function ArtistsSongs(props: ArtistsSongsProps) {
 
       <Box py={2}>
         <TablePagination
-          showFirstButton
-          showLastButton
+          showFirstButton={!isMobile}
+          showLastButton={!isMobile}
           labelRowsPerPage="每页"
           labelDisplayedRows={defaultLabelDisplayedRows}
           rowsPerPageOptions={[10, 20, 30]}

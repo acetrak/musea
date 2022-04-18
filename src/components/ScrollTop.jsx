@@ -4,7 +4,7 @@ import { Box, Fab, Zoom } from '@mui/material';
 import KeyboardArrowUpIcon from '@mui/icons-material/KeyboardArrowUp';
 
 function ScrollTop(props) {
-  const { children } = props;
+  const { children, isMobile } = props;
 
   const trigger = useScrollTrigger({
     target: undefined,
@@ -27,7 +27,7 @@ function ScrollTop(props) {
       <Box
         onClick={handleClick}
         role="presentation"
-        sx={{ position: 'fixed', zIndex: 100, bottom: 90, right: 16 }}
+        sx={{ position: 'fixed', zIndex: 100, bottom: isMobile ? 140 : 90, right: 16 }}
       >
         {
           children ? children : (

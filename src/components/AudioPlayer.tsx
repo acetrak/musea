@@ -115,14 +115,6 @@ export type AudioRef = {
   pause: () => void
 }
 
-
-type AudioPlayerProps = {
-  url?: string | undefined
-  onError: () => void
-  onEnded: () => void
-
-}
-
 type Progress = {
   loaded: number
   loadedSeconds: number
@@ -130,9 +122,17 @@ type Progress = {
   playedSeconds: number
 }
 
+type AudioPlayerProps = {
+  url?: string | undefined
+  onError: () => void
+  onEnded: () => void
+  isMobile?: boolean
+}
+
+
 const AudioPlayer = React.forwardRef(function AudioPlayer(props: AudioPlayerProps, ref: React.ForwardedRef<AudioRef>) {
 
-  const { url, onError: handleError, onEnded: handleEnded } = props;
+  const { url, isMobile, onError: handleError, onEnded: handleEnded } = props;
 
   const player = useRef(null);
   const [playing, setPlaying] = useState(false);
@@ -194,8 +194,7 @@ const AudioPlayer = React.forwardRef(function AudioPlayer(props: AudioPlayerProp
   );
 
   const onDuration = useCallback((value: number) => {
-    console.log('onDuration');
-    console.log(value);
+
     setDuration(value);
   }, []);
 
@@ -242,37 +241,37 @@ const AudioPlayer = React.forwardRef(function AudioPlayer(props: AudioPlayerProp
     <>
 
 
-        <Slider
-          sx={{
-            position: 'absolute',
-            left: 0,
-            top: -14,
-            right: 0,
-            fontSize: 0,
-            zIndex: 2
-          }}
-          onMouseDown={onMouseDown}
-          onMouseUp={onMouseUp}
-          onChange={onSliderChange}
-          size="small"
-          value={playedSeconds || 0}
-          max={duration}
-          min={0}
-          step={0.01}
-        />
-        <LinearProgress
-          sx={{
-            position: 'absolute',
-            left: 0,
-            top: 0,
-            right: 0,
-            zIndex: 1,
+      <Slider
+        sx={{
+          position: 'absolute',
+          left: 0,
+          top: isMobile ? -18 : -14,
+          right: 0,
+          fontSize: 0,
+          zIndex: 2
+        }}
+        onMouseDown={onMouseDown}
+        onMouseUp={onMouseUp}
+        onChange={onSliderChange}
+        size="small"
+        value={playedSeconds || 0}
+        max={duration}
+        min={0}
+        step={0.01}
+      />
+      <LinearProgress
+        sx={{
+          position: 'absolute',
+          left: 0,
+          top: 0,
+          right: 0,
+          zIndex: 1,
 
-            [`& .${linearProgressClasses.dashed}`]: {
-              display: 'none'
-            }
-          }} variant="buffer" value={played * 100} valueBuffer={loaded * 100}
-        />
+          [`& .${linearProgressClasses.dashed}`]: {
+            display: 'none'
+          }
+        }} variant="buffer" value={played * 100} valueBuffer={loaded * 100}
+      />
 
       {/*@ts-ignore*/}
       <ReactPlayer
@@ -314,7 +313,5 @@ const AudioPlayer = React.forwardRef(function AudioPlayer(props: AudioPlayerProp
   );
 });
 
-const isE = (prevProps: AudioPlayerProps, nextProps: AudioPlayerProps) => {
-  return prevProps.url === nextProps.url;
-};
-export default React.memo(AudioPlayer, isE);
+
+export default React.memo(AudioPlayer, );
