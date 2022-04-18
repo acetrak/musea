@@ -11,15 +11,15 @@ type PageLayoutProps = {
 }
 
 export type LayoutData = {
-  pt: { xs: number, md: number }
-  pb: { xs: number, md: number },
+  pt: number
+  pb: number,
   maxWidth: Breakpoint
 }
 
-const layoutData: LayoutData = {
+const defaultData = {
   pt: { xs: 3, md: 6 },
   pb: { xs: 2, md: 2 },
-  maxWidth: 'xl'
+  maxWidth: 'xl' as Breakpoint
 };
 
 function PageLayout(props: PageLayoutProps) {
@@ -29,15 +29,15 @@ function PageLayout(props: PageLayoutProps) {
   const isMobile = getIsMobile(key);
 
   const pObj = useMemo(() => ({
-    pt: isMobile ? layoutData.pt.xs : layoutData.pt.md,
-    pb: isMobile ? layoutData.pb.xs : layoutData.pt.md
+    pt: isMobile ? defaultData.pt.xs : defaultData.pt.md,
+    pb: isMobile ? defaultData.pb.xs : defaultData.pt.md
   }), [isMobile]);
 
-  const node = typeof children === 'function' ? children({ ...layoutData, ...pObj }) : children;
+  const node = typeof children === 'function' ? children({ ...defaultData, ...pObj }) : children;
 
   return (
 
-    <Container maxWidth={layoutData.maxWidth} sx={{ px: { xs: 1, md: 2 } }}>
+    <Container maxWidth={defaultData.maxWidth} sx={{ px: { xs: 1, md: 2 } }}>
       <Box
         sx={{
           ...pObj,
