@@ -7,11 +7,12 @@ interface FallImageProps extends ImageProps {
   alt?: string;
   className?: string;
   wave?: boolean;
+  borderRadius?: boolean;
 }
 
 function Image(props: FallImageProps) {
 
-  const { onLoadingComplete, width, height, className, wave = true, ...reset } = props;
+  const { onLoadingComplete, width, height, className, wave = true, borderRadius = false, ...reset } = props;
 
 
   const [imgLoaded, setImgLoaded] = React.useState(false);
@@ -29,11 +30,22 @@ function Image(props: FallImageProps) {
   };
 
   return (
-    <div style={{ position: 'relative', width, height }} className={className}>
+    <div
+      style={{ position: 'relative', width, height, borderRadius: borderRadius ? '100%' : 'unset' }}
+      className={className}
+    >
       {
         !imgLoaded && wave && (
           <Skeleton
-            sx={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%' }} variant="rectangular"
+            sx={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              width: '100%',
+              height: '100%',
+              borderRadius: borderRadius ? '100%' : 'unset'
+            }}
+            variant="rectangular"
             animation="wave"
           />
         )

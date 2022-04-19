@@ -536,7 +536,6 @@ function VideoPlayer(props: PlayerProps) {
   useEffect(() => {
     const isS = isSafari();
     setSafari(isS);
-    if (isS) setPlaying(true);
 
   }, []);
 
