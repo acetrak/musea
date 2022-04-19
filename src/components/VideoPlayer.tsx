@@ -80,10 +80,11 @@ type WrapVideoProps = {
   onBrs: (value: { url: string, r: number }) => void
   brsConfig: Array<{ url: string, r: number }>
   currentBrs: number
+  isMobile?: boolean
 }
 const WrapVideo = React.forwardRef(function WrapVideo(props: WrapVideoProps, ref) {
 
-  const { children, playing, playbackRate, brsConfig, currentBrs, onPlaybackRate, onBrs } = props;
+  const { children, playing, playbackRate, brsConfig, currentBrs, isMobile, onPlaybackRate, onBrs } = props;
 
   const [menu, setMenu] = useState('MENU');
   const [showSetting, setShowSetting] = useState(false);
@@ -296,7 +297,7 @@ const WrapVideo = React.forwardRef(function WrapVideo(props: WrapVideoProps, ref
 
             </TransitionGroup>
           </Box>
-          <Portal container={() => document?.querySelector('#v_setting')}>
+          <Portal disablePortal={isMobile} container={() => document?.querySelector('#v_setting')}>
             <IconButton color="inherit" onClick={onSettingClick}>
               <SettingsIcon sx={{ fontSize: 26 }} />
             </IconButton>
@@ -495,11 +496,14 @@ type PlayerProps = {
   onWidthFull?: () => void
   onScreenFull?: () => void
   isScreenFull?: boolean
+  isMobile?: boolean
 }
 
 function VideoPlayer(props: PlayerProps) {
 
-  const { src, urlBrs, brsConfig, onWidthFull, isScreenFull, onScreenFull } = props;
+  const { src, urlBrs, brsConfig, onWidthFull, isScreenFull, onScreenFull, isMobile } = props;
+
+  const [safari, setSafari] = useState<boolean | undefined>(undefined);
 
   const player = useRef(null);
 
@@ -528,11 +532,12 @@ function VideoPlayer(props: PlayerProps) {
   const played = useMemo(() => progressState.played, [progressState.played]);
   const loaded = useMemo(() => progressState.loaded, [progressState.loaded]);
 
-  const [safari, setSafari] = useState<boolean | undefined>(undefined);
 
   useEffect(() => {
     const isS = isSafari();
     setSafari(isS);
+    if (isS) setPlaying(true);
+
   }, []);
 
   useEffect(() => {
@@ -660,6 +665,7 @@ function VideoPlayer(props: PlayerProps) {
           onPlaybackRate={onPlaybackRate}
           onBrs={onBrs}
           currentBrs={playParam.r}
+          isMobile={isMobile}
         >
           {/*@ts-ignore*/}
           <ReactPlayer

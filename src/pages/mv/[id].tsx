@@ -5,11 +5,12 @@ import useSWR from 'swr';
 import Head from 'next/head';
 import loadable from '@loadable/component';
 
-import { fetcher, request } from '../../utils/utils';
+import { fetcher, getIsMobile, request } from '../../utils/utils';
 import VideoPlayer from '../../components/VideoPlayer';
 import Comment from '../../features/mv/Comment';
 import PageLayout from '../../components/PageLayout';
 import SimiList from '../../features/mv/SimiList';
+import useMediaQueryKey from '../../hooks/useMediaQueryKey';
 
 const TextOverflow = loadable(() => import('../../features/mv/TextOverflow'));
 
@@ -68,6 +69,8 @@ function Mv(props: MvProps) {
     return arr[0] + '年' + arr[1] + '月' + arr[2] + '日';
   }, [detail.publishTime]);
 
+    const queryKey = useMediaQueryKey()
+  const isMobile = getIsMobile(queryKey)
 
   const { data: data_r_1080 } = useSWR(urlBrs === 1080 ? null : () => `/mv/url?id=${mvId}&r=1080`, fetcher);
   const { data: data_r_720 } = useSWR(urlBrs === 720 ? null : () => `/mv/url?id=${mvId}&r=720`, fetcher);
@@ -156,6 +159,7 @@ function Mv(props: MvProps) {
           <Grid item md={isWidthFull ? 12 : ROW1} lg={isWidthFull ? 12 : ROW1} sm={12}>
 
             <VideoPlayer
+              isMobile={isMobile}
               isScreenFull={isScreenFull}
               onScreenFull={onScreenFull}
               onWidthFull={onWidthFull}
@@ -241,7 +245,6 @@ function Mv(props: MvProps) {
 
       </Box>
 
-      {/*<ScreenFull ref={screenFullRef} />*/}
     </PageLayout>
   );
 }

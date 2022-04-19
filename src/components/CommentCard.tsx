@@ -25,7 +25,7 @@ function CommentCard(props: { item: CommentItem }) {
 
       <Stack flexDirection="row" mb={4}>
         <div>
-          <Box sx={{ borderRadius: '100%', overflow: 'hidden' }}>
+          <Box sx={{ borderRadius: '100%', overflow: 'hidden', width: 40, height: 40 }}>
             <Image alt={item?.user?.nickname} width={40} height={40} src={item?.user?.avatarUrl} />
           </Box>
         </div>
