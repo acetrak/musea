@@ -35,7 +35,7 @@ import TuneIcon from '@mui/icons-material/Tune';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CropLandscapeIcon from '@mui/icons-material/CropLandscape';
 
-import { second2Minute } from '../utils/utils';
+import { isSafari, second2Minute } from '../utils/utils';
 
 import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 
@@ -528,6 +528,12 @@ function VideoPlayer(props: PlayerProps) {
   const played = useMemo(() => progressState.played, [progressState.played]);
   const loaded = useMemo(() => progressState.loaded, [progressState.loaded]);
 
+  const [safari, setSafari] = useState<boolean | undefined>(undefined);
+
+  useEffect(() => {
+    const isS = isSafari();
+    setSafari(isS);
+  }, []);
 
   useEffect(() => {
     setPlayParameters(prevState => ({ ...prevState, url: src, r: urlBrs }));
@@ -672,39 +678,47 @@ function VideoPlayer(props: PlayerProps) {
             width="100%"
             height="100%"
           />
-          <Control
-            onScreenFull={handleScreenFull}
-            onWidthFull={handleWidthFull}
-            onSliderChange={onSliderChange}
-            onMouseUp={onMouseUp}
-            onMouseDown={onMouseDown}
-            onPlayClick={onPlayClick}
-            onVolumeClick={onVolumeClick}
-            onVolumeChange={onVolumeChange}
-            playedSeconds={playedSeconds}
-            duration={duration}
-            playing={playing}
-            muted={muted}
-            volume={volume}
-            loaded={loaded}
-            played={played}
-            isScreenFull={isScreenFull}
-          />
-
-
           {
-            buffering ? (
-              <Box
-                sx={{
-                  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%,-50%)'
-                }}
-              >
-                <CircularProgress />
-              </Box>
-            ) : null
+            !safari && (
+              <>
+                <Control
+                  onScreenFull={handleScreenFull}
+                  onWidthFull={handleWidthFull}
+                  onSliderChange={onSliderChange}
+                  onMouseUp={onMouseUp}
+                  onMouseDown={onMouseDown}
+                  onPlayClick={onPlayClick}
+                  onVolumeClick={onVolumeClick}
+                  onVolumeChange={onVolumeChange}
+                  playedSeconds={playedSeconds}
+                  duration={duration}
+                  playing={playing}
+                  muted={muted}
+                  volume={volume}
+                  loaded={loaded}
+                  played={played}
+                  isScreenFull={isScreenFull}
+                />
+
+
+                {
+                  buffering ? (
+                    <Box
+                      sx={{
+                        position: 'absolute',
+                        top: '50%',
+                        left: '50%',
+                        transform: 'translate(-50%,-50%)'
+                      }}
+                    >
+                      <CircularProgress />
+                    </Box>
+                  ) : null
+                }
+
+
+              </>
+            )
           }
 
 
