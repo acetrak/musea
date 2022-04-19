@@ -11,6 +11,8 @@ import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
 import InfoIcon from '@mui/icons-material/Info';
+import MusicVideoIcon from '@mui/icons-material/MusicVideo';
+import MusicVideoOutlinedIcon from '@mui/icons-material/MusicVideoOutlined';
 
 import MenuIcon from '@mui/icons-material/Menu';
 
@@ -81,7 +83,7 @@ const BasicLayout = (props: BasicLayoutProps) => {
 
   const isMobile = useMemo(() => getIsMobile(key), [key]);
 
-  const sideWidth = useMemo(() => isMobile || !key ? 0 : leftWidth, [isMobile, key, leftWidth]);
+  const sideWidth = useMemo(() => isMobile  ? 0 : leftWidth, [isMobile, key, leftWidth]);
 
   const handleToggleLeftWidth = useCallback(() => {
 
@@ -90,22 +92,22 @@ const BasicLayout = (props: BasicLayoutProps) => {
     prevWidthRef.current = w;
   }, [leftWidth]);
 
-  // if (isMobile) {
-  //   return (
-  //     <>
-  //
-  //       <Stack justifyContent="center" alignItems="center" sx={{ minHeight: '100vh' }}>
-  //         <Typography align="center" gutterBottom>
-  //           移动端正在施工中
-  //         </Typography>
-  //
-  //         <Typography align="center" gutterBottom>
-  //           Coming Soon!
-  //         </Typography>
-  //       </Stack>
-  //     </>
-  //   );
-  // }
+  if (isMobile) {
+    return (
+      <>
+
+        <Stack justifyContent="center" alignItems="center" sx={{ minHeight: '100vh' }}>
+          <Typography align="center" gutterBottom>
+            移动端正在施工中
+          </Typography>
+
+          <Typography align="center" gutterBottom>
+            Coming Soon!
+          </Typography>
+        </Stack>
+      </>
+    );
+  }
 
   return (
     <>
@@ -157,6 +159,13 @@ const BasicLayout = (props: BasicLayoutProps) => {
               selectedIcon={<SearchIcon />}
             >
               搜索
+            </NavButton>
+            <NavButton
+              href="/mv-collect"
+              icon={<MusicVideoOutlinedIcon sx={{ color: 'text.primary' }} />}
+              selectedIcon={<MusicVideoIcon />}
+            >
+              MV
             </NavButton>
             <NavButton
               href="/about"

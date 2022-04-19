@@ -77,6 +77,7 @@ type WrapVideoProps = {
   playing: boolean
   playbackRate: number
   onPlaybackRate: (value: number) => void
+  onClick?: () => void
   onBrs: (value: { url: string, r: number }) => void
   brsConfig: Array<{ url: string, r: number }>
   currentBrs: number
@@ -84,7 +85,7 @@ type WrapVideoProps = {
 }
 const WrapVideo = React.forwardRef(function WrapVideo(props: WrapVideoProps, ref) {
 
-  const { children, playing, playbackRate, brsConfig, currentBrs, isMobile, onPlaybackRate, onBrs } = props;
+  const { children, playing, playbackRate, brsConfig, currentBrs, isMobile, onPlaybackRate, onBrs, onClick } = props;
 
   const [menu, setMenu] = useState('MENU');
   const [showSetting, setShowSetting] = useState(false);
@@ -130,13 +131,24 @@ const WrapVideo = React.forwardRef(function WrapVideo(props: WrapVideoProps, ref
     setShowSetting(false);
   };
 
-  const onSettingClick = useCallback(() => {
+  const onSettingClick = useCallback((e: any) => {
+
     setShowSetting(prevState => !prevState);
   }, []);
+
+  const stopPropagation = useCallback((e: any) => {
+    e.stopPropagation();
+    e.preventDefault();
+  }, []);
+
+  const onWrapClick = useCallback(() => {
+    onClick?.();
+  }, [onClick]);
 
   return (
     <Box
       ref={ref}
+      onClick={onWrapClick}
       {...bind()}
       sx={{
         position: 'absolute',
@@ -144,7 +156,9 @@ const WrapVideo = React.forwardRef(function WrapVideo(props: WrapVideoProps, ref
         left: 0,
         width: '100%',
         height: '100%',
-        overflow: 'hidden'
+        overflow: 'hidden',
+
+        zIndex: 3
       }}
     >
       {children?.[0]}
@@ -158,22 +172,39 @@ const WrapVideo = React.forwardRef(function WrapVideo(props: WrapVideoProps, ref
           left: 0,
           bottom: 0,
           backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0))',
-          zIndex: 222
+          zIndex: 2
         }}
         style={style as any}
+        onClick={stopPropagation}
       >
         {children?.[1]}
       </Box>
 
       {children?.[2]}
 
+      {
+        showSetting && (
+          <Box
+            onClick={stopPropagation}
+            sx={{
+              position: 'absolute',
+              top: 0, right: 0,
+              left: 0,
+              bottom: 0,
+              zIndex: 6
+            }}
+          />
+        )
+      }
+
       <ClickAwayListener
         onClickAway={onClickAway}
         mouseEvent="onMouseDown"
         touchEvent="onTouchStart"
       >
-        <div>
+        <div onClick={stopPropagation}>
           <Box
+
             sx={{
               position: 'absolute',
               right: 16,
@@ -183,7 +214,8 @@ const WrapVideo = React.forwardRef(function WrapVideo(props: WrapVideoProps, ref
               py: 1,
               overflow: 'hidden',
               color: '#fff',
-              display: showSetting ? 'block' : 'none'
+              display: showSetting ? 'block' : 'none',
+              zIndex: 7
             }}
           >
             <TransitionGroup>
@@ -658,17 +690,17 @@ function VideoPlayer(props: PlayerProps) {
           position: 'relative'
         }}
       >
-        <Box
-          onClick={onPlayClick}
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            zIndex: 111
-          }}
-        />
+        {/*<Box*/}
+        {/*  onClick={onPlayClick}*/}
+        {/*  sx={{*/}
+        {/*    position: 'absolute',*/}
+        {/*    top: 0,*/}
+        {/*    left: 0,*/}
+        {/*    right: 0,*/}
+        {/*    bottom: 0,*/}
+        {/*    zIndex: 1*/}
+        {/*  }}*/}
+        {/*/>*/}
         <WrapVideo
           brsConfig={brsConfig}
           playing={playing}
@@ -677,6 +709,7 @@ function VideoPlayer(props: PlayerProps) {
           onBrs={onBrs}
           currentBrs={playParam.r}
           isMobile={isMobile}
+          onClick={onPlayClick}
         >
           {/*@ts-ignore*/}
           <ReactPlayer
