@@ -134,6 +134,13 @@ const Search: NextPage<SearchProps> = () => {
     , [deferredQuery, isMobile]
   );
 
+  const onChangeIndex = useCallback((index: number) => {
+
+    handleTab(index).then(() => {
+    });
+
+  }, [handleTab]);
+
   return (
     <>
 
@@ -299,10 +306,10 @@ const Search: NextPage<SearchProps> = () => {
                       <SwipeableViews
                         axis="x"
                         index={tab}
-
+                        onChangeIndex={onChangeIndex}
                       >
                         <TabPanel value={tab} index={0} dir="x">
-                          <Songs input={keyword} isMobile={isMobile}/>
+                          <Songs input={keyword} isMobile={isMobile} />
                         </TabPanel>
 
                         <TabPanel value={tab} index={1} dir="x">
@@ -310,15 +317,15 @@ const Search: NextPage<SearchProps> = () => {
                         </TabPanel>
 
                         <TabPanel value={tab} index={2} dir="x">
-                          <Album input={keyword} isMobile={isMobile}/>
+                          <Album input={keyword} isMobile={isMobile} />
                         </TabPanel>
 
                         <TabPanel value={tab} index={3} dir="x">
-                          <Playlist input={keyword} isMobile={isMobile}/>
+                          <Playlist input={keyword} isMobile={isMobile} />
                         </TabPanel>
 
                         <TabPanel value={tab} index={4} dir="x">
-                          <Mv input={keyword} isMobile={isMobile}/>
+                          <Mv input={keyword} isMobile={isMobile} />
                         </TabPanel>
                       </SwipeableViews>
                     </>

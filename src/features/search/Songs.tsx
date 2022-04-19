@@ -93,28 +93,42 @@ const Songs = (props: SongsProps) => {
 
   return (
     <>
-      <TableContainer component={Paper} sx={{ overflowX: 'hidden', overflowY: 'auto' }}>
-        <Table>
-          <TableBody>
+
+      {
+        isMobile && (
+
+          <>
             {
               page_songs.map((row) => (
                 <React.Fragment key={row.id}>
-                  {
-                    isMobile ? (
-                      <CardActionArea onClick={() => play(row)}>
-                        <Stack py={1.5} px={1}>
-                          <Typography>
-                            {row.name}
-                          </Typography>
-                          <Stack direction="row" alignItems="center">
-                            <Typography variant="caption">
-                              {row?.ar.map(o => o.name).join(' , ')}
-                            </Typography>
-                            <Typography variant="caption">&nbsp;-&nbsp;{row.al.name}  </Typography>
-                          </Stack>
-                        </Stack>
-                      </CardActionArea>
-                    ) : (
+                  <CardActionArea onClick={() => play(row)}>
+                    <Stack py={1.5} px={1}>
+                      <Typography>
+                        {row.name}
+                      </Typography>
+                      <Stack direction="row" alignItems="center">
+                        <Typography variant="caption">
+                          {row?.ar.map(o => o.name).join(' , ')}
+                        </Typography>
+                        <Typography variant="caption">&nbsp;-&nbsp;{row.al.name}  </Typography>
+                      </Stack>
+                    </Stack>
+                  </CardActionArea>
+                </React.Fragment>
+              ))
+            }
+
+          </>
+        )
+      }
+      {
+        !isMobile && (
+          <TableContainer component={Paper} sx={{ overflowX: 'hidden', overflowY: 'auto' }}>
+            <Table>
+              <TableBody>
+                {
+                  page_songs.map((row) => (
+                    <React.Fragment key={row.id}>
                       <TableRow
                         hover
                         sx={{
@@ -150,16 +164,17 @@ const Songs = (props: SongsProps) => {
                         ><Typography color="grey.500">{millisecond2Minute(row.dt)}</Typography></TableCell>
 
                       </TableRow>
-                    )
-                  }
 
-                </React.Fragment>
-              ))
-            }
+                    </React.Fragment>
+                  ))
+                }
 
-          </TableBody>
-        </Table>
-      </TableContainer>
+              </TableBody>
+            </Table>
+          </TableContainer>
+        )
+      }
+
 
       <ResultTip loading={loading} hasData={!!songs.length} error={error} />
       {

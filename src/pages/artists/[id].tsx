@@ -176,7 +176,7 @@ const Artists = (props: ArtistsProps) => {
   // @ts-ignore
   const value = MAP_VALUE[tab];
 
-  const handleChange = (_: any, newValue: number) => {
+  const handleChange = useCallback((_: any, newValue: number) => {
 
 
     if ([2, 3].includes(newValue))
@@ -191,7 +191,7 @@ const Artists = (props: ArtistsProps) => {
       await router.push('/artists/' + artistId + '?tab=' + _tab, undefined, { shallow: true });
     }, 100);
 
-  };
+  },[artistId, dispatch, router]);
 
 
   const onPlayAll = () => {
@@ -215,11 +215,10 @@ const Artists = (props: ArtistsProps) => {
 
   const isMobile = getIsMobile(key);
 
-  const onSwipeableViewsChange = useCallback((val) => {
+  const onChangeIndex = useCallback((index: number) => {
+    handleChange(null,index)
 
-    console.log(val);
-
-  }, []);
+  }, [handleChange]);
 
   return (
     <PageLayout>
@@ -303,7 +302,7 @@ const Artists = (props: ArtistsProps) => {
           <SwipeableViews
             axis="x"
             index={value}
-            onChange={onSwipeableViewsChange}
+            onChangeIndex={onChangeIndex}
           >
             <TabPanel value={value} index={0} dir="x">
               <ArtistsSongsAsync songs={props.songs} />

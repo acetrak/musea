@@ -105,6 +105,7 @@ function HotSearchWord(props: HotSearchWordProps) {
                 {
                   words.map(item => (
                     <Chip
+                      onClick={() => handleClick(item.searchWord)}
                       icon={item._index < 3 ? <LocalFireDepartmentIcon fontSize="small" /> : undefined}
                       sx={{ mr: 1, mb: 1 }}
                       size="small"
