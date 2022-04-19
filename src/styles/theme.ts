@@ -83,8 +83,9 @@ export const responsiveFontSizes = (theme: Theme) => {
 const common = {
   palette: {
     primary: {
-      main: '#4b6dca'
-    },
+      main: '#26974d'
+      // main: '#4b6dca'
+    }
   },
   typography: {
     fontFamily: `'Noto Sans SC', sans-serif`,

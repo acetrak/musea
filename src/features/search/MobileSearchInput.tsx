@@ -1,23 +1,63 @@
 import * as React from 'react';
-import { Box, TextField, TextFieldProps } from '@mui/material';
-import { useCallback, FormEventHandler } from 'react';
+import { FormEventHandler } from 'react';
+import { Box, IconButton, TextField, TextFieldProps, Zoom } from '@mui/material';
+import CloseIcon from '@mui/icons-material/Close';
 
 type MobileSearchInput = {
   value: string
   onInput?: FormEventHandler<HTMLInputElement>
-  keyword:string,
+  keyword: string,
+  onClearClick?: () => void
 } & TextFieldProps
 
 function MobileSearchInput(props: MobileSearchInput) {
-  const { value, onInput, ...reset } = props;
+  const { value, onInput, keyword, onClearClick, ...reset } = props;
   return (
-    <Box>
+    <Box
+      sx={{
+        display: 'flex',
+        alignItems: 'center',
+        position: 'relative'
+      }}
+    >
       <TextField
+
         {...reset}
         placeholder="搜索歌曲，专辑等…"
-        variant="outlined" size="small" sx={{ width: '100%' }} type="text" value={value}
+        variant="outlined" size="small" sx={{
+        width: '100%',
+        '& .MuiInputBase-input': {
+          pr: 6
+        }
+      }} type="text" value={value}
         onInput={onInput}
       />
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 1,
+          right: 0
+
+        }}
+      >
+
+        <Zoom in={Boolean(keyword)}>
+
+          <IconButton onClick={onClearClick}>
+            <CloseIcon
+              sx={{
+                fontSize: 18,
+                cursor: 'pointer',
+                '&:hover': {
+                  color: 'grey.200'
+                }
+              }}
+            />
+          </IconButton>
+
+
+        </Zoom>
+      </Box>
     </Box>
   );
 }

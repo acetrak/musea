@@ -157,7 +157,8 @@ const WrapVideo = React.forwardRef(function WrapVideo(props: WrapVideoProps, ref
           position: 'absolute',
           left: 0,
           bottom: 0,
-          backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0))'
+          backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0))',
+          zIndex: 222
         }}
         style={style as any}
       >
@@ -657,6 +658,17 @@ function VideoPlayer(props: PlayerProps) {
           position: 'relative'
         }}
       >
+        <Box
+          onClick={onPlayClick}
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 111
+          }}
+        />
         <WrapVideo
           brsConfig={brsConfig}
           playing={playing}
@@ -682,50 +694,48 @@ function VideoPlayer(props: PlayerProps) {
             url={playParam.url}
             width="100%"
             height="100%"
+            controls={Boolean(safari)}
           />
           {
             !safari && (
-              <>
-                <Control
-                  onScreenFull={handleScreenFull}
-                  onWidthFull={handleWidthFull}
-                  onSliderChange={onSliderChange}
-                  onMouseUp={onMouseUp}
-                  onMouseDown={onMouseDown}
-                  onPlayClick={onPlayClick}
-                  onVolumeClick={onVolumeClick}
-                  onVolumeChange={onVolumeChange}
-                  playedSeconds={playedSeconds}
-                  duration={duration}
-                  playing={playing}
-                  muted={muted}
-                  volume={volume}
-                  loaded={loaded}
-                  played={played}
-                  isScreenFull={isScreenFull}
-                />
 
+              <Control
+                onScreenFull={handleScreenFull}
+                onWidthFull={handleWidthFull}
+                onSliderChange={onSliderChange}
+                onMouseUp={onMouseUp}
+                onMouseDown={onMouseDown}
+                onPlayClick={onPlayClick}
+                onVolumeClick={onVolumeClick}
+                onVolumeChange={onVolumeChange}
+                playedSeconds={playedSeconds}
+                duration={duration}
+                playing={playing}
+                muted={muted}
+                volume={volume}
+                loaded={loaded}
+                played={played}
+                isScreenFull={isScreenFull}
+              />
 
-                {
-                  buffering ? (
-                    <Box
-                      sx={{
-                        position: 'absolute',
-                        top: '50%',
-                        left: '50%',
-                        transform: 'translate(-50%,-50%)'
-                      }}
-                    >
-                      <CircularProgress />
-                    </Box>
-                  ) : null
-                }
-
-
-              </>
             )
           }
 
+
+          {
+            buffering ? (
+              <Box
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%,-50%)'
+                }}
+              >
+                <CircularProgress />
+              </Box>
+            ) : null
+          }
 
         </WrapVideo>
       </Box>

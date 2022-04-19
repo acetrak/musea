@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useMemo, useState, useEffect, useCallback, useRef } from 'react';
-import { Box, IconButton, Paper, Stack } from '@mui/material';
+import { Box, IconButton, Paper, Stack, Typography } from '@mui/material';
 import Router from 'next/router';
 import NProgress from 'nprogress';
 import loadable from '@loadable/component';
@@ -90,6 +90,22 @@ const BasicLayout = (props: BasicLayoutProps) => {
     prevWidthRef.current = w;
   }, [leftWidth]);
 
+  // if (isMobile) {
+  //   return (
+  //     <>
+  //
+  //       <Stack justifyContent="center" alignItems="center" sx={{ minHeight: '100vh' }}>
+  //         <Typography align="center" gutterBottom>
+  //           移动端正在施工中
+  //         </Typography>
+  //
+  //         <Typography align="center" gutterBottom>
+  //           Coming Soon!
+  //         </Typography>
+  //       </Stack>
+  //     </>
+  //   );
+  // }
 
   return (
     <>

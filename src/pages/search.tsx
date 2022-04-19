@@ -159,7 +159,8 @@ const Search: NextPage<SearchProps> = () => {
                 pb: 3,
                 bgcolor: 'background.paper',
                 height: 150,
-                overflow: 'hidden'
+                overflow: 'hidden',
+                boxShadow:'none'
               }}
             >
               <Typography variant="h5" mb={4} color="text.secondary" fontWeight="600">搜索</Typography>
@@ -170,6 +171,7 @@ const Search: NextPage<SearchProps> = () => {
                 onKeyPress={onKeyPress}
                 value={input}
                 onInput={onInput}
+                onClearClick={onClearClick}
               />
             </AppBar>
           </>

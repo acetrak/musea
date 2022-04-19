@@ -1,18 +1,19 @@
 import * as React from 'react';
 import NextImage, { ImageProps } from 'next/image';
-import { Skeleton } from '@mui/material';
+import { Skeleton, Box } from '@mui/material';
+import { useMemo } from 'react';
 
 
 interface FallImageProps extends ImageProps {
   alt?: string;
   className?: string;
   wave?: boolean;
-  borderRadius?: boolean;
+  borderRadius?: boolean | string | number;
 }
 
 function Image(props: FallImageProps) {
 
-  const { onLoadingComplete, width, height, className, wave = true, borderRadius = false, ...reset } = props;
+  const { onLoadingComplete, width, height, className, wave = true, borderRadius, ...reset } = props;
 
 
   const [imgLoaded, setImgLoaded] = React.useState(false);
@@ -29,9 +30,16 @@ function Image(props: FallImageProps) {
 
   };
 
+  const br = useMemo(() => {
+    if (typeof borderRadius === 'boolean') return '100%';
+    if (typeof borderRadius === 'string' || typeof borderRadius === 'number') return borderRadius;
+
+    return 'unset';
+  }, [borderRadius]);
+
   return (
-    <div
-      style={{ position: 'relative', width, height, borderRadius: borderRadius ? '100%' : 'unset' }}
+    <Box
+      sx={{ position: 'relative', width, height, borderRadius: br }}
       className={className}
     >
       {
@@ -59,7 +67,7 @@ function Image(props: FallImageProps) {
         alt={props.alt}
         onLoadingComplete={handleLoadingComplete}
       />
-    </div>
+    </Box>
   );
 }
 
