@@ -14,6 +14,7 @@ import { useMemo } from 'react';
 
 type MvProps = {
   input?: string
+  isMobile?: boolean
 }
 export type mvListItem = {
   cover: string
@@ -34,7 +35,7 @@ const TYPE = 1004;
 const Mv = (props: MvProps) => {
 
 
-  const { input } = props;
+  const { input, isMobile } = props;
 
   const { data, error } = useSWR(input ? () => `/cloudsearch?keywords=${input}&type=${TYPE}&limit=100` : null, fetcher);
 
@@ -75,7 +76,6 @@ const Mv = (props: MvProps) => {
     setPage(0);
   };
 
-  console.log('Mv');
 
   const loading = Boolean(!error && !data && input);
 
@@ -88,7 +88,7 @@ const Mv = (props: MvProps) => {
 
   return (
     <>
-      <ImageList cols={cols} gap={30}>
+      <ImageList cols={cols} gap={isMobile ? 8 : 30}>
         {page_mvList.map((item) => (
           <ImageListItem key={item.id}>
             <MvCard mv={item} />
@@ -100,8 +100,8 @@ const Mv = (props: MvProps) => {
         mvList.length ? (
           <Box py={2}>
             <TablePagination
-              showFirstButton
-              showLastButton
+              showFirstButton={!isMobile}
+              showLastButton={!isMobile}
               labelRowsPerPage="每页"
               labelDisplayedRows={defaultLabelDisplayedRows}
               rowsPerPageOptions={[12, 30, 60]}

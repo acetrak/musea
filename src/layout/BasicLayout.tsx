@@ -33,6 +33,7 @@ type  BasicLayoutProps = {
     showBack?: boolean
     hideAudio?: boolean
     isMiniWidth?: boolean
+    hideHeaderBar?: boolean
   }
 }
 
@@ -53,6 +54,7 @@ const BasicLayout = (props: BasicLayoutProps) => {
 
   const isMiniWidth = pageProps?.isMiniWidth;
   const hideAudio = pageProps?.hideAudio;
+  const hideHeaderBar = pageProps?.hideHeaderBar;
 
   const [leftWidth, setLeftWidth] = useState(SIDE_WIDTH);
 
@@ -99,7 +101,7 @@ const BasicLayout = (props: BasicLayoutProps) => {
         }}
       >
         {
-          isMobile && (<MobileHeader />)
+          isMobile && !hideHeaderBar && (<MobileHeader />)
         }
         <Paper
           sx={{
@@ -191,7 +193,7 @@ const BasicLayout = (props: BasicLayoutProps) => {
       </Box>
 
       <div id="playlist" />
-      <ScrollTop isMobile={isMobile}/>
+      <ScrollTop isMobile={isMobile} />
       <PlayBar isMobile={isMobile} sideWidth={sideWidth} hide={hideAudio} />
       {
         isMobile && (<BottomNavBar />)

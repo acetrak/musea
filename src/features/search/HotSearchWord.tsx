@@ -1,7 +1,7 @@
 import * as React from 'react';
 import useSWR from 'swr';
 import { get, slice } from 'lodash';
-import { Paper, Container, Grid, CircularProgress, CardActionArea, Typography, Stack } from '@mui/material';
+import { Paper, Container, Grid, CircularProgress, CardActionArea, Typography, Stack, Chip } from '@mui/material';
 import LocalFireDepartmentIcon from '@mui/icons-material/LocalFireDepartment';
 
 import { fetcher, formatNumToTenThousand } from '../../utils/utils';
@@ -9,16 +9,14 @@ import { useCallback } from 'react';
 
 type HotSearchWordProps = {
   onClick?: (word: string) => void
+  isMobile?: boolean
 }
 
 type Word = {
   searchWord: string
   score: number
   content: string
-
   iconUrl: string
-
-
 }
 
 const WordItem = (props: { item: Word, index: number, onClick: (word: string) => void }) => {
@@ -52,7 +50,7 @@ const WordItem = (props: { item: Word, index: number, onClick: (word: string) =>
 
 function HotSearchWord(props: HotSearchWordProps) {
 
-  const { onClick } = props;
+  const { onClick, isMobile } = props;
 
   const { data, error } = useSWR(`/search/hot/detail`, fetcher);
 
@@ -75,11 +73,12 @@ function HotSearchWord(props: HotSearchWordProps) {
   return (
     <>
       <Container
+        disableGutters
         maxWidth="md" sx={{
         py: 5
       }}
       >
-        <Typography variant="body1" my={4} color="grey.500">热搜</Typography>
+        <Typography variant="body1" my={isMobile ? 0 : 4} color="grey.500">热搜</Typography>
 
         {
           loading && (
@@ -92,32 +91,59 @@ function HotSearchWord(props: HotSearchWordProps) {
         {
           error && (
             <Stack alignItems="center" justifyContent="center" sx={{ py: 2 }}>
-              <Typography variant="body1"   color="grey.500">加载出错</Typography>
+              <Typography variant="body1" color="grey.500">加载出错</Typography>
             </Stack>
           )
         }
 
-        <Grid container spacing={6}>
 
-          <Grid item md={6} lg={6} sm={12} xs={12}>
-            <Paper>
-              {
-                before.map(item => (
-                  <WordItem onClick={handleClick} index={item._index} key={item.searchWord} item={item} />
-                ))
-              }
-            </Paper>
-          </Grid>
-          <Grid item md={6} lg={6} sm={12} xs={12}>
-            <Paper>
-              {
-                after.map(item => (
-                  <WordItem onClick={handleClick} index={item._index} key={item.searchWord} item={item} />
-                ))
-              }
-            </Paper>
-          </Grid>
-        </Grid>
+        {
+          isMobile ? (
+
+            <>
+              <Stack direction="row" flexWrap="wrap" mt={2}>
+                {
+                  words.map(item => (
+                    <Chip
+                      icon={item._index < 3 ? <LocalFireDepartmentIcon fontSize="small" /> : undefined}
+                      sx={{ mr: 1, mb: 1 }}
+                      size="small"
+                      key={item._index}
+                      label={item.searchWord}
+                      clickable
+                    />
+                  ))
+                }
+              </Stack>
+
+            </>
+          ) : (
+
+            <Grid container spacing={6}>
+
+              <Grid item md={6} lg={6} sm={12} xs={12}>
+                <Paper>
+                  {
+                    before.map(item => (
+                      <WordItem onClick={handleClick} index={item._index} key={item.searchWord} item={item} />
+                    ))
+                  }
+                </Paper>
+              </Grid>
+              <Grid item md={6} lg={6} sm={12} xs={12}>
+                <Paper>
+                  {
+                    after.map(item => (
+                      <WordItem onClick={handleClick} index={item._index} key={item.searchWord} item={item} />
+                    ))
+                  }
+                </Paper>
+              </Grid>
+            </Grid>
+
+          )
+        }
+
       </Container>
 
     </>

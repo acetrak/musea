@@ -3,8 +3,8 @@ import useSWR from 'swr';
 import { get } from 'lodash';
 import { useDispatch } from 'react-redux';
 import {
-  Box,
-  Paper,
+  Box, CardActionArea,
+  Paper, Stack,
   Table,
   TableBody,
   TableCell,
@@ -26,6 +26,7 @@ import ResultTip from './ResultTip';
 type SongsProps = {
   input?: string
   tabValue?: number
+  isMobile?: boolean
 }
 
 const TYPE = 1;
@@ -52,7 +53,7 @@ const mapItem = (o: SongsItem) => ({
 
 const Songs = (props: SongsProps) => {
 
-  const { input } = props;
+  const { input, isMobile } = props;
   const { data, error } = useSWR(input ? () => `/cloudsearch?keywords=${input}&type=${TYPE}&limit=100` : null, fetcher);
 
   const [page, setPage] = React.useState(0);
@@ -65,8 +66,6 @@ const Songs = (props: SongsProps) => {
   const page_songs: Array<SongsItem> = React.useMemo(() => songs.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage), [
     songs, page, rowsPerPage
   ]);
-
-  console.log('Songs', );
 
 
   const play = (item: SongsItem) => {
@@ -100,41 +99,60 @@ const Songs = (props: SongsProps) => {
             {
               page_songs.map((row) => (
                 <React.Fragment key={row.id}>
-                  <TableRow
-                    hover
-                    sx={{
-                      cursor: 'pointer',
-                      '&:nth-of-type(odd)': {
-                        backgroundColor: (theme: Theme) => theme.palette.mode === 'dark' ? '#181818' : '#fff'
-                      },
-                      '& td, & th': {
-                        border: 0
-                      }
+                  {
+                    isMobile ? (
+                      <CardActionArea onClick={() => play(row)}>
+                        <Stack py={1.5} px={1}>
+                          <Typography>
+                            {row.name}
+                          </Typography>
+                          <Stack direction="row" alignItems="center">
+                            <Typography variant="caption">
+                              {row?.ar.map(o => o.name).join(' , ')}
+                            </Typography>
+                            <Typography variant="caption">&nbsp;-&nbsp;{row.al.name}  </Typography>
+                          </Stack>
+                        </Stack>
+                      </CardActionArea>
+                    ) : (
+                      <TableRow
+                        hover
+                        sx={{
+                          cursor: 'pointer',
+                          '&:nth-of-type(odd)': {
+                            backgroundColor: (theme: Theme) => theme.palette.mode === 'dark' ? '#181818' : '#fff'
+                          },
+                          '& td, & th': {
+                            border: 0
+                          }
 
-                    }}
-                    onClick={() => play(row)}
-                  >
+                        }}
+                        onClick={() => play(row)}
+                      >
 
-                    <TableCell align="left">
-                      <Typography>
-                        {row?.name}
-                      </Typography>
-                    </TableCell>
+                        <TableCell align="left">
+                          <Typography>
+                            {row?.name}
+                          </Typography>
+                        </TableCell>
 
-                    <TableCell align="left">
-                      <Typography className="nowrap1" sx={{ maxWidth: 400 }} color="grey.500" fontSize={14}>
-                        {row?.ar.map(o => o.name).join(' , ')}
-                      </Typography>
-                    </TableCell>
+                        <TableCell align="left">
+                          <Typography className="nowrap1" sx={{ maxWidth: 400 }} color="grey.500" fontSize={14}>
+                            {row?.ar.map(o => o.name).join(' , ')}
+                          </Typography>
+                        </TableCell>
 
-                    <TableCell align="left">
-                      <Typography>《 {row.al.name} 》</Typography>
-                    </TableCell>
-                    <TableCell
-                      align="left" sx={{ width: 200 }}
-                    ><Typography color="grey.500">{millisecond2Minute(row.dt)}</Typography></TableCell>
+                        <TableCell align="left">
+                          <Typography>《 {row.al.name} 》</Typography>
+                        </TableCell>
+                        <TableCell
+                          align="left" sx={{ width: 200 }}
+                        ><Typography color="grey.500">{millisecond2Minute(row.dt)}</Typography></TableCell>
 
-                  </TableRow>
+                      </TableRow>
+                    )
+                  }
+
                 </React.Fragment>
               ))
             }
@@ -148,8 +166,8 @@ const Songs = (props: SongsProps) => {
         songs.length ? (
           <Box py={2}>
             <TablePagination
-              showFirstButton
-              showLastButton
+              showFirstButton={!isMobile}
+              showLastButton={!isMobile}
               labelRowsPerPage="每页"
               labelDisplayedRows={defaultLabelDisplayedRows}
               rowsPerPageOptions={[12, 30, 60]}

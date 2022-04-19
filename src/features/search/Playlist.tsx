@@ -23,6 +23,7 @@ import ResultTip from './ResultTip';
 
 type PlaylistProps = {
   input?: string
+  isMobile?: boolean
 }
 
 type PlaylistItem = {
@@ -38,7 +39,7 @@ const TYPE = 1000;
 
 const Playlist = (props: PlaylistProps) => {
 
-  const { input } = props;
+  const { input ,isMobile} = props;
 
   const { data, error } = useSWR(input ? () => `/cloudsearch?keywords=${input}&type=${TYPE}&limit=100` : null, fetcher);
 
@@ -60,7 +61,7 @@ const Playlist = (props: PlaylistProps) => {
     setPage(0);
   };
 
-  console.log('Playlist');
+
 
   const loading = Boolean(!error && !data && input);
 
@@ -82,13 +83,13 @@ const Playlist = (props: PlaylistProps) => {
                 alignItems="flex-start"
               >
                 <ListItemAvatar sx={{ borderRadius: 2, overflow: 'hidden', mr: 2 }}>
-                  <Image alt={item.name} src={`${item.coverImgUrl}?parma=130y130`} width={130} height={130} />
+                  <Image alt={item.name} src={`${item.coverImgUrl}?parma=130y130`} width={isMobile?64:130} height={isMobile?64:130} />
                 </ListItemAvatar>
                 <ListItemText
                   primary={
                     <>
                       <Typography
-                        variant="h6"
+                        variant={isMobile?'subtitle1':'h6'}
                         className="nowrap1"
                       >
                         {item.name}
@@ -123,8 +124,8 @@ const Playlist = (props: PlaylistProps) => {
         page_playlist.length ? (
           <Box py={2}>
             <TablePagination
-              showFirstButton
-              showLastButton
+              showFirstButton={!isMobile}
+              showLastButton={!isMobile}
               labelRowsPerPage="每页"
               labelDisplayedRows={defaultLabelDisplayedRows}
               rowsPerPageOptions={[12, 30, 60]}

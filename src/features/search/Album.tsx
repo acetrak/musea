@@ -15,6 +15,7 @@ import { defaultLabelDisplayedRows } from '../artists/ArtistsAlbum';
 
 type AlbumProps = {
   input?: string
+  isMobile: boolean
 }
 type AlbumItem = AlbumsItem
 
@@ -22,7 +23,7 @@ const TYPE = 10;
 
 const Album = (props: AlbumProps) => {
 
-  const { input } = props;
+  const { input, isMobile } = props;
   const { data, error } = useSWR(input ? () => `/cloudsearch?keywords=${input}&type=${TYPE}&limit=100` : null, fetcher);
 
   const [page, setPage] = React.useState(0);
@@ -52,11 +53,10 @@ const Album = (props: AlbumProps) => {
     );
   }
 
-  console.log('Album',page_albums);
 
   return (
     <>
-      <ImageList cols={3} gap={30}>
+      <ImageList cols={isMobile ? 1 : 3} gap={isMobile ? 20 : 30}>
         {page_albums.map((item) => (
           <ImageListItem key={item.id}>
             <AlbumCard
@@ -72,8 +72,8 @@ const Album = (props: AlbumProps) => {
         albums.length ? (
           <Box py={2}>
             <TablePagination
-              showFirstButton
-              showLastButton
+              showFirstButton={!isMobile}
+              showLastButton={!isMobile}
               labelRowsPerPage="每页"
               labelDisplayedRows={defaultLabelDisplayedRows}
               rowsPerPageOptions={[12, 30, 60]}

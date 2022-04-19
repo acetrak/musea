@@ -114,7 +114,7 @@ const Artists: NextPage<ArtistsProps> = (props) => {
 
         }}
       >
-        <Container maxWidth="md">
+        <Container maxWidth="md" disableGutters>
 
           <Box pt={6} pb={14}>
 
