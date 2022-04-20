@@ -6,7 +6,7 @@ import TopArtists from '../features/index/TopArtists';
 import TopSongs from '../features/index/TopSongs';
 import { request } from '../utils/utils';
 import PageLayout from '../components/PageLayout';
-import { Box, Stack, Typography } from '@mui/material';
+import { appName } from '../constant';
 
 
 type HomeProps = {
@@ -22,7 +22,7 @@ const Home: NextPage<HomeProps> = (props) => {
   return (
     <>
       <Head>
-        <title>Melody - 首页</title>
+        <title>{appName}- 首页</title>
       </Head>
 
       {/*<Stack>*/}
@@ -49,7 +49,7 @@ const Home: NextPage<HomeProps> = (props) => {
 export default Home;
 
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   let artists = [];
   try {
     const result = await request('/top/artists');

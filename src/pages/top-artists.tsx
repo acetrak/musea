@@ -25,6 +25,7 @@ import { Image, Link } from '../components';
 import { ArtistsItem } from '../features/index/TopArtists';
 import useMediaQueryKey from '../hooks/useMediaQueryKey';
 import bgPic from '../../public/bruno-emmanuelle-dtqlaz4HyHw-unsplash.jpg';
+import { appName } from '../constant';
 
 type ArtistsProps = {
   artists: Array<ArtistsItem>
@@ -62,7 +63,7 @@ const Artists: NextPage<ArtistsProps> = (props) => {
   return (
     <>
       <Head>
-        <title>Melody - Top 50 歌手</title>
+        <title>{appName} - Top 50 歌手</title>
       </Head>
 
       <Box

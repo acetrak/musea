@@ -1,22 +1,15 @@
 import * as React from 'react';
 import { Box, ImageList, ImageListItem, Typography } from '@mui/material';
+import Head from 'next/head';
 
-import PersonalizedCard from '../features/mv-collect/PersonalizedCard';
+import PersonalizedCard,{MvItem} from '../features/mv-collect/PersonalizedCard';
+import MvTop from '../features/mv-collect/MvTop';
 import { request } from '../utils/utils';
+import { appName } from '../constant';
 
-export type PersonalizedItem = {
-  id: number
-  name: string
-  copywriter: string
-  picUrl: string
-  duration: number
-  playCount: number
-  artists: Array<{ id: number, name: string }>
-  artistName: string
-  artistId: number
-}
+
 type MvCollectProps = {
-  personalized: PersonalizedItem[]
+  personalized: MvItem[]
 }
 
 
@@ -28,6 +21,12 @@ function MvCollect(props: MvCollectProps) {
   return (
 
     <>
+      <Head>
+        <title>{appName} - MV</title>
+      </Head>
+
+
+
       <Box
         sx={{
           px: 5,
@@ -45,6 +44,10 @@ function MvCollect(props: MvCollectProps) {
           ))}
         </ImageList>
 
+      <Box pt={3} pb={10}>
+        <MvTop/>
+      </Box>
+
 
       </Box>
 
@@ -54,7 +57,7 @@ function MvCollect(props: MvCollectProps) {
 
 export default MvCollect;
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   let personalized = [];
   try {
     const result = await request('/personalized/mv');

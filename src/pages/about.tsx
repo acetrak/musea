@@ -3,7 +3,7 @@ import { Box, Link, Typography } from '@mui/material';
 import * as React from 'react';
 import Head from 'next/head';
 import PageLayout from '../components/PageLayout';
-
+import { appName } from '../constant';
 
 const About: NextPage = (props) => {
 
@@ -11,7 +11,7 @@ const About: NextPage = (props) => {
   return (
     <PageLayout>
       <Head>
-        <title>Melody - 关于</title>
+        <title>{appName } - 关于</title>
       </Head>
       <Box sx={{ p: 2 }}>
         <Typography variant="h5" mt="20vh" color="grey.400">

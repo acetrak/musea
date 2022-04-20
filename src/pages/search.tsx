@@ -19,7 +19,7 @@ import PageLayout, { LayoutData } from '../components/PageLayout';
 import useMediaQueryKey from '../hooks/useMediaQueryKey';
 import { getIsMobile } from '../utils/utils';
 import MobileSearchInput from '../features/search/MobileSearchInput';
-
+import { appName } from '../constant';
 
 type SearchProps = {
   artists: []
@@ -186,7 +186,7 @@ const Search: NextPage<SearchProps> = () => {
           ({ pt }: LayoutData) => (
             <>
               <Head>
-                <title>Melody - 搜索</title>
+                <title>{appName} - 搜索</title>
               </Head>
 
               {
