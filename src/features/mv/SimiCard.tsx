@@ -2,7 +2,7 @@ import * as React from 'react';
 import { Box, CardActionArea, ListItem, ListItemAvatar, ListItemText, Skeleton, Typography } from '@mui/material';
 import { Image, Link } from '../../components';
 import { mvListItem } from '../search/Mv';
-import { millisecond2Minute } from '../../utils/utils';
+import { millisecond2Minute, formatNumToTenThousand } from '../../utils/utils';
 
 type SimiCardProps = {
   item: mvListItem
@@ -43,18 +43,24 @@ function SimiCard(props: SimiCardProps) {
         >
           <ListItemAvatar sx={{ m: 0, mr: 2, position: 'relative' }}>
             <Image alt={item.name} src={item.cover} width={160} height={100} />
-            <Typography
-              variant="caption"
-              sx={{
-                position: 'absolute',
-                right: 4,
-                bottom: 4,
-                backgroundColor: 'rgba(0,0,0,0.7)',
-                px: 1
-              }}
-            >
-              {millisecond2Minute(item.duration)}
-            </Typography>
+            {
+              Boolean(item.duration) && (
+                <Typography
+                  variant="caption"
+                  sx={{
+                    position: 'absolute',
+                    right: 4,
+                    bottom: 4,
+                    backgroundColor: 'rgba(0,0,0,0.7)',
+                    px: 1,
+                    color: '#fff'
+                  }}
+                >
+                  {millisecond2Minute(item.duration)}
+                </Typography>
+              )
+            }
+
           </ListItemAvatar>
           <ListItemText
             sx={{ m: 0 }}
@@ -87,7 +93,7 @@ function SimiCard(props: SimiCardProps) {
                   color="text.secondary"
                   className="nowrap2"
                 >
-                  {item.playCount}次播放
+                  {formatNumToTenThousand(item.playCount)}次播放
                 </Typography>
               </React.Fragment>
             }

@@ -70,7 +70,9 @@ function PersonalizedCard(props: PersonalizedCardProps) {
   return (
 
 
-    <CardActionArea href={`/mv/[id]`} linkAs={`/mv/${mv.id}`} component={Link}>
+    <CardActionArea
+      href={`/mv/[id]`} linkAs={`/mv/${mv.id}`} sx={{ borderRadius: 1, overflow: 'hidden' }} component={Link}
+    >
       <Box sx={{ position: 'relative', fontSize: 0 }}>
         <NextImage
           src={imgUrl + '?param=320y180'}

@@ -163,3 +163,8 @@ img {
 .bgPic{
     object-fit: cover;
 }
+.video_mv_u38rd{
+    background: #000;
+    border-radius: 12px;
+    overflow: hidden;
+}

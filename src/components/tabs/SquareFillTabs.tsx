@@ -26,11 +26,11 @@ function SquareFillTabs(props:SquareFillTabsProps) {
           p: 0,
           '& .MuiTabs-indicator': {
             height: '100%',
-            zIndex: 1,
+            zIndex: -1,
             borderRadius: 1
           },
           '& .Mui-selected': {
-            color: '#fff'
+            color: '#fff !important'
           }
         }}
       >

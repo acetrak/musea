@@ -83,8 +83,11 @@ export const responsiveFontSizes = (theme: Theme) => {
 const common = {
   palette: {
     primary: {
-      main: '#26974d'
+      main: '#8cc152'
       // main: '#4b6dca'
+    },
+    secondary: {
+      main: '#aa5377'
     }
   },
   typography: {
@@ -121,6 +124,7 @@ const darkTheme = createTheme({
   palette: {
     mode: 'dark',
     primary: common.palette.primary,
+    secondary: common.palette.secondary,
     background: {
       default: '#080808',
       paper: '#151515'
@@ -163,6 +167,7 @@ const lightTheme = createTheme({
   palette: {
     mode: 'light',
     primary: common.palette.primary,
+    secondary: common.palette.secondary,
     background: {
       paper: '#f5f5f5'
     },

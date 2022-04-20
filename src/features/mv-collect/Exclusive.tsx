@@ -43,30 +43,22 @@ const Layout = (props: LayoutProps) => {
 type List = {
   code: number,
   data: Array<MvItem>
-  hasMore: boolean
+  more: boolean
 }
 
 const PAGE_SIZE = 8;
 
-function MvTop() {
+function Exclusive() {
 
 
-  const [tab, setTab] = useState(0);
   const [page, setPage] = useState(0);
-
-  const onTabsChange = (e: any, newValue: number) => {
-    setTab(newValue);
-    setPage(0);
-  };
-
 
   const { data, error, size, setSize } = useSWRInfinite(
     (index: number) => {
       const offset = index * PAGE_SIZE;
-      return `/top/mv?limit=${PAGE_SIZE}&area=${ITEMS[tab]}&offset=${offset}`;
+      return `/mv/exclusive/rcmd?limit=${PAGE_SIZE}&offset=${offset}`;
     }
   );
-
 
   const list: List[] = useMemo(() => data ? [].concat(...data) : [], [data]);
 
@@ -74,7 +66,7 @@ function MvTop() {
 
   const isEmpty = useMemo(() => get(list, '0.data.length', 0) === 0, [list]);
 
-  const isReachingEnd = useMemo(() => isEmpty || (!list[list.length - 1]?.hasMore),
+  const isReachingEnd = useMemo(() => isEmpty || (!list[list.length - 1]?.more),
     [isEmpty, list]);
 
   const isLoadingInitialData = !data && !error;
@@ -105,10 +97,10 @@ function MvTop() {
   }, [isLoadingMore, isReachingEnd, setSize, size]);
 
   const loadingDom = useMemo(() => (
-    <TabPanel key={`MvTop_loadingDom_${listLength}`} value={page} index={listLength}>
+    <TabPanel key={`Exclusive_loadingDom_${listLength}`} value={page} index={listLength}>
       <Layout>
         {
-          Array.from({ length: PAGE_SIZE }).map((o, i) => <SkeletonCard key={`MvTop_SkeletonCard${i}`} />)
+          Array.from({ length: PAGE_SIZE }).map((o, i) => <SkeletonCard key={`Exclusive_SkeletonCard${i}`} />)
         }
       </Layout>
     </TabPanel>
@@ -120,7 +112,7 @@ function MvTop() {
 
       if (item.code == 200) {
         return (
-          <TabPanel key={`MvTop_TabPanel${index}`} value={page} index={index}>
+          <TabPanel key={`Exclusive_TabPanel${index}`} value={page} index={index}>
             <Layout>
               {
                 item.data.map((mv) => (
@@ -153,17 +145,10 @@ function MvTop() {
   }, [isReachingEnd, page, size]);
 
 
-
   return (
     <>
 
-
-      <Typography variant="h6" pb={1} pt={2} >MV排行</Typography>
-
-      <Box pb={3}>
-        <SquareFillTabs items={ITEMS} value={tab} onChange={onTabsChange} />
-      </Box>
-
+      <Typography variant="h6" pb={1} pt={2}>独家放送</Typography>
 
       <Box
         sx={{
@@ -220,7 +205,6 @@ function MvTop() {
           )
         }
 
-
         {
           showNext && (
             <Box
@@ -241,11 +225,10 @@ function MvTop() {
         }
 
 
-
       </Box>
 
     </>
   );
 }
 
-export default MvTop;
+export default Exclusive;

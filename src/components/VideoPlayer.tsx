@@ -157,7 +157,6 @@ const WrapVideo = React.forwardRef(function WrapVideo(props: WrapVideoProps, ref
         width: '100%',
         height: '100%',
         overflow: 'hidden',
-
         zIndex: 3
       }}
     >
@@ -166,12 +165,16 @@ const WrapVideo = React.forwardRef(function WrapVideo(props: WrapVideoProps, ref
       <Box
         component={animated.div}
         sx={{
-          width: '100%',
+          // width: '100%',
           p: 1,
           position: 'absolute',
-          left: 0,
-          bottom: 0,
-          backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0))',
+          left: 10,
+          bottom: 10,
+          right: 10,
+          bgcolor: 'rgba(0,0,0,0.5)',
+          borderRadius: 3,
+          // overflow: 'hidden',
+          // backgroundImage: 'linear-gradient(to top, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0))',
           zIndex: 2
         }}
         style={style as any}
@@ -188,7 +191,8 @@ const WrapVideo = React.forwardRef(function WrapVideo(props: WrapVideoProps, ref
             onClick={stopPropagation}
             sx={{
               position: 'absolute',
-              top: 0, right: 0,
+              top: 0,
+              right: 0,
               left: 0,
               bottom: 0,
               zIndex: 6
@@ -204,7 +208,6 @@ const WrapVideo = React.forwardRef(function WrapVideo(props: WrapVideoProps, ref
       >
         <div onClick={stopPropagation}>
           <Box
-
             sx={{
               position: 'absolute',
               right: 16,
@@ -215,7 +218,8 @@ const WrapVideo = React.forwardRef(function WrapVideo(props: WrapVideoProps, ref
               overflow: 'hidden',
               color: '#fff',
               display: showSetting ? 'block' : 'none',
-              zIndex: 7
+              zIndex: 7,
+              borderRadius: 2
             }}
           >
             <TransitionGroup>
@@ -424,9 +428,9 @@ const ControlBar = (props: ControlProps) => {
       <Box
         sx={{
           position: 'absolute',
-          left: 8,
+          left: 0,
           top: -12,
-          right: 8
+          right: 0
         }}
       >
         <Slider
@@ -728,6 +732,7 @@ function VideoPlayer(props: PlayerProps) {
             width="100%"
             height="100%"
             controls={Boolean(safari)}
+            className="video_mv_u38rd"
           />
           {
             !safari && (

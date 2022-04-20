@@ -31,7 +31,7 @@ function ScrollTop(props) {
       >
         {
           children ? children : (
-            <Fab color="primary" size="small">
+            <Fab color="secondary" size="small">
               <KeyboardArrowUpIcon />
             </Fab>
           )

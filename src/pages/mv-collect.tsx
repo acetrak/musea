@@ -2,8 +2,9 @@ import * as React from 'react';
 import { Box, ImageList, ImageListItem, Typography } from '@mui/material';
 import Head from 'next/head';
 
-import PersonalizedCard,{MvItem} from '../features/mv-collect/PersonalizedCard';
+import PersonalizedCard, { MvItem } from '../features/mv-collect/PersonalizedCard';
 import MvTop from '../features/mv-collect/MvTop';
+import Exclusive from '../features/mv-collect/Exclusive';
 import { request } from '../utils/utils';
 import { appName } from '../constant';
 
@@ -26,7 +27,6 @@ function MvCollect(props: MvCollectProps) {
       </Head>
 
 
-
       <Box
         sx={{
           px: 5,
@@ -34,7 +34,7 @@ function MvCollect(props: MvCollectProps) {
         }}
       >
 
-        <Typography variant="h6">最新热门MV推荐</Typography>
+        <Typography variant="h6">最新热门</Typography>
 
         <ImageList cols={4} gap={30}>
           {personalized.map((item) => (
@@ -44,10 +44,13 @@ function MvCollect(props: MvCollectProps) {
           ))}
         </ImageList>
 
-      <Box pt={3} pb={10}>
-        <MvTop/>
-      </Box>
+        <Box pt={3}>
+          <MvTop />
+        </Box>
 
+        <Box pt={3} pb={10}>
+          <Exclusive />
+        </Box>
 
       </Box>
 
