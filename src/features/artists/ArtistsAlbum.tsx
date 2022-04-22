@@ -72,7 +72,7 @@ function ArtistsAlbum(props: ArtistsAlbumProps) {
 
     <ImageList cols={cols} gap={isMobile?10:30}>
       {
-        [0, 1, 2, 3, 4, 5].map((_, index) => (
+        [0, 1, 2, 3, 4, 5,6,7].map((_, index) => (
           <ImageListItem key={index}>
             <Skeleton sx={{ borderRadius: 1.5 }} animation="wave" variant="rectangular" height={220} />
           </ImageListItem>

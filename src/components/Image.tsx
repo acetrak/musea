@@ -51,7 +51,7 @@ function Image(props: FallImageProps) {
               left: 0,
               width: '100%',
               height: '100%',
-              borderRadius: borderRadius ? '100%' : 'unset'
+              borderRadius: br
             }}
             variant="rectangular"
             animation="wave"

@@ -1,13 +1,13 @@
 // @ts-ignore
 import { useCallback, useDeferredValue, useEffect, useMemo, useRef, useState } from 'react';
-import { alpha, Box, Container, Fade, Grow, Tab, Tabs, Theme, AppBar, Typography } from '@mui/material';
+import { alpha, AppBar, Box, Container, Fade, Grow, Tab, Tabs, Theme, Typography } from '@mui/material';
 import { NextPage } from 'next';
 import { get, trim } from 'lodash';
 import SwipeableViews from 'react-swipeable-views';
 import { useRouter } from 'next/router';
 import Head from 'next/head';
 
-import SearchInput, { SearchBoxRef } from '../features/search/SearchInput';
+import SearchInput from '../features/search/SearchInput';
 import Songs from '../features/search/Songs';
 import Singer from '../features/search/Singer';
 import Album from '../features/search/Album';
@@ -160,7 +160,7 @@ const Search: NextPage<SearchProps> = () => {
                 bgcolor: 'background.paper',
                 height: 150,
                 overflow: 'hidden',
-                boxShadow:'none'
+                boxShadow: 'none'
               }}
             >
               <Typography variant="h5" mb={4} color="text.secondary" fontWeight="600">搜索</Typography>

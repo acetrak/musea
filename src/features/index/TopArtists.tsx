@@ -1,8 +1,11 @@
 import * as React from 'react';
-import { useMemo } from 'react';
-import { Box, Button, CardActionArea, Container, Stack, Theme, Typography } from '@mui/material';
+import { useMemo, useState, useCallback } from 'react';
+import { Box, Button, CardActionArea, Container, Stack, Theme, Typography, IconButton } from '@mui/material';
 import useMeasure from 'react-use-measure';
-
+import { chunk } from 'lodash';
+import SwipeableViews from 'react-swipeable-views';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 
 import { Image, Link } from '../../components';
 import useMediaQueryKey from '../../hooks/useMediaQueryKey';
@@ -36,7 +39,8 @@ const ArtistsCard = (props: { item: ArtistsItem, width: number }) => {
         overflow: 'hidden',
         fontSize: 0,
         boxShadow: 0,
-        width
+        width,
+        mr: GAP + 'px'
       }}
     >
 
@@ -55,7 +59,7 @@ const ArtistsCard = (props: { item: ArtistsItem, width: number }) => {
               right: 0,
               bottom: 0,
               p: 1,
-              pt:2
+              pt: 2
             }}
           >
             <Typography color="#fff" variant="subtitle1">{name}</Typography>
@@ -75,6 +79,8 @@ const Ac = React.memo(ArtistsCard);
 function TopArtists(props: TopArtistsProps) {
 
   const { artists = [] } = props;
+
+  const [tab, setTab] = useState(0);
 
   const [ref, bound] = useMeasure();
   const key = useMediaQueryKey();
@@ -101,6 +107,20 @@ function TopArtists(props: TopArtistsProps) {
     return (boxWidth - (count - 1) * GAP) / count;
   }, [count, bound.width]);
 
+  const chunkList = useMemo(() => chunk(artists, count), [artists, count]);
+
+  const onChangeIndex = useCallback((index: number) => {
+    setTab(index);
+  }, []);
+
+  const prev = () => {
+    setTab(prevState => prevState - 1);
+  };
+
+  const next = () => {
+    setTab(prevState => prevState + 1);
+  };
+
   return (
 
     <Box sx={{ position: 'relative' }}>
@@ -112,33 +132,56 @@ function TopArtists(props: TopArtistsProps) {
           <Stack sx={{ mb: 6, pt: 6 }} alignItems="center" flexDirection="row" justifyContent="flex-start">
             <Typography variant="h6">热门歌手</Typography>
 
-            <Button
-              component={Link}
-              href="/top-artists"
-              size="small"
-              sx={{ borderRadius: 10, marginLeft: 'auto' }}
-              variant="contained"
-              color="secondary"
-            >
-              查看全部
-            </Button>
+            <Stack ml="auto" direction="row" alignItems="center">
+              <IconButton onClick={prev} disabled={tab === 0}>
+                <ChevronLeftIcon />
+              </IconButton>
+
+              <IconButton onClick={next} disabled={tab === chunkList.length - 1}>
+                <ChevronRightIcon />
+              </IconButton>
+              <Button
+                component={Link}
+                href="/top-artists"
+                size="small"
+                sx={{ borderRadius: 10, ml: 2 }}
+                variant="contained"
+                color="secondary"
+              >
+                查看全部
+              </Button>
+            </Stack>
+
           </Stack>
 
           <Box>
 
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'space-between'
-              }}
+
+            <SwipeableViews
+              axis="x"
+              index={tab}
+              onChangeIndex={onChangeIndex}
             >
+
               {
-                artists.slice(0, count).map((o) => (
-                  <Ac width={width} item={o} key={o.id} />
+                chunkList.map((data, index) => (
+                  <Box
+                    key={index}
+                    sx={{
+                      display: 'flex',
+                      alignItems: 'center'
+                    }}
+                  >
+                    {
+                      data.map((o) => (
+                        <Ac width={width} item={o} key={o.id} />
+                      ))
+                    }
+                  </Box>
                 ))
               }
-            </Box>
+            </SwipeableViews>
+
 
           </Box>
 

@@ -10,6 +10,7 @@ import { bindActionCreators, Dispatch } from 'redux';
 import { setPage, setRowsPerPage } from '../../store/artists/action';
 import MvCard from '../../components/MvCard';
 import useMediaQueryKey from '../../hooks/useMediaQueryKey';
+import { SkeletonCard } from '../mv-collect/PersonalizedCard';
 
 export function defaultLabelDisplayedRows({ from, to, count }: { from: number, to: number, count: number }) {
   return `${from}–${to} 共 ${count !== -1 ? `${count}首` : `超过 ${to}首`}`;
@@ -86,9 +87,9 @@ function ArtistsMV(props: ArtistsAlbumProps) {
 
     <ImageList cols={cols} gap={isMobile ? 10 : 30}>
       {
-        [0, 1, 2, 3, 4, 5].map((_, index) => (
+        [0, 1, 2, 3, 4, 5,6,7].map((_, index) => (
           <ImageListItem key={index}>
-            <Skeleton sx={{ borderRadius: 1.5 }} animation="wave" variant="rectangular" height={220} />
+            <SkeletonCard />
           </ImageListItem>
         ))
       }
