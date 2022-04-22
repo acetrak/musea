@@ -37,7 +37,7 @@ function PageLayout(props: PageLayoutProps) {
 
   return (
 
-    <Container maxWidth={defaultData.maxWidth} sx={{ px: { xs: 1, md: 2 } }}>
+    <Container maxWidth={defaultData.maxWidth} disableGutters sx={{ px: { xs: 1, md: 4 },pb:6 }}>
       <Box
         sx={{
           ...pObj,

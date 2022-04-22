@@ -8,7 +8,6 @@ import loadable from '@loadable/component';
 import { connect } from 'react-redux';
 import NextImage from 'next/image';
 
-
 import { Image } from '../../components';
 import { getIsMobile, request } from '../../utils/utils';
 import { Dispatch } from 'redux';

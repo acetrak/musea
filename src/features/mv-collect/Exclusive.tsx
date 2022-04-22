@@ -231,4 +231,4 @@ function Exclusive() {
   );
 }
 
-export default Exclusive;
+export default React.memo(Exclusive);

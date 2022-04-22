@@ -2,11 +2,13 @@ import * as React from 'react';
 import { Box, ImageList, ImageListItem, Typography } from '@mui/material';
 import Head from 'next/head';
 
+import PageLayout from '../components/PageLayout';
 import PersonalizedCard, { MvItem } from '../features/mv-collect/PersonalizedCard';
 import MvTop from '../features/mv-collect/MvTop';
 import Exclusive from '../features/mv-collect/Exclusive';
 import { request } from '../utils/utils';
 import { appName } from '../constant';
+import SearchMVInput from '../components/SearchMVInput';
 
 
 type MvCollectProps = {
@@ -18,7 +20,6 @@ function MvCollect(props: MvCollectProps) {
 
   const { personalized } = props;
 
-  console.log({ personalized });
   return (
 
     <>
@@ -26,34 +27,33 @@ function MvCollect(props: MvCollectProps) {
         <title>{appName} - MV</title>
       </Head>
 
+      <PageLayout sx={{pt:3}}>
+        <Box>
 
-      <Box
-        sx={{
-          px: 5,
-          pt: 5
-        }}
-      >
+          <SearchMVInput />
 
-        <Typography variant="h6">最新热门</Typography>
+          <Typography variant="h6">最新热门</Typography>
 
-        <ImageList cols={4} gap={30}>
-          {personalized.map((item) => (
-            <ImageListItem key={item.id}>
-              <PersonalizedCard mv={item} />
-            </ImageListItem>
-          ))}
-        </ImageList>
+          <ImageList cols={4} gap={30}>
+            {
+              personalized.map((item) => (
+                <ImageListItem key={item.id}>
+                  <PersonalizedCard mv={item} />
+                </ImageListItem>
+              ))
+            }
+          </ImageList>
 
-        <Box pt={3}>
-          <MvTop />
+          <Box pt={3}>
+            <MvTop />
+          </Box>
+
+          <Box pt={3} pb={10}>
+            <Exclusive />
+          </Box>
+
         </Box>
-
-        <Box pt={3} pb={10}>
-          <Exclusive />
-        </Box>
-
-      </Box>
-
+      </PageLayout>
     </>
   );
 }
@@ -75,7 +75,8 @@ export async function getServerSideProps() {
 
   return {
     props: {
-      personalized
+      personalized,
+      hideAudio: true
     }
   };
 }

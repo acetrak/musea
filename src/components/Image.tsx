@@ -39,7 +39,7 @@ function Image(props: FallImageProps) {
 
   return (
     <Box
-      sx={{ position: 'relative', width, height, borderRadius: br }}
+      sx={{ position: 'relative', width, height, borderRadius: br, overflow: 'hidden' }}
       className={className}
     >
       {

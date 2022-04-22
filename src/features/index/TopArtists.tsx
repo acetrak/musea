@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useMemo } from 'react';
-import { Box, Button, CardActionArea, Stack, Typography } from '@mui/material';
+import { Box, Button, CardActionArea, Container, Stack, Theme, Typography } from '@mui/material';
 import useMeasure from 'react-use-measure';
 
 
@@ -41,12 +41,27 @@ const ArtistsCard = (props: { item: ArtistsItem, width: number }) => {
     >
 
       <CardActionArea sx={{ fontSize: 0 }} component={Link} href={`/artists/[id]`} linkAs={`/artists/${id}?tab=songs`}>
-        <Box sx={{ borderRadius: 3, overflow: 'hidden' }}>
-          <Image src={`${img1v1Url}?param=${WIDTH}y${WIDTH}`} width={width} height={width} alt={name} />
+
+        <Box sx={{ position: 'relative' }}>
+          <Image
+            borderRadius={4} src={`${img1v1Url}?param=${WIDTH}y${WIDTH}`} width={width} height={width} alt={name}
+          />
+
+          <Box
+            sx={{
+              backgroundImage: (theme: Theme) => `linear-gradient(to top,rgba(0,0,0,0.7),transparent)`,
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: 0,
+              p: 1,
+              pt:2
+            }}
+          >
+            <Typography color="#fff" variant="subtitle1">{name}</Typography>
+          </Box>
         </Box>
-        <Box sx={{ py: 1 }}>
-          <Typography sx={{ fontWeight: 'bold' }} color="text.primary" variant="subtitle1">{name}</Typography>
-        </Box>
+
       </CardActionArea>
 
     </Box>
@@ -88,40 +103,65 @@ function TopArtists(props: TopArtistsProps) {
 
   return (
 
-    <Box ref={ref}>
-      <Stack sx={{ mb: 4 }} alignItems="center" flexDirection="row" justifyContent="flex-start">
-        <Typography variant="h6">歌手Top50</Typography>
+    <Box sx={{ position: 'relative' }}>
 
-        <Button
-          component={Link}
-          href="/top-artists"
-          size="small"
-          sx={{ borderRadius: 10, marginLeft: 'auto' }}
-          variant="contained"
-        >
-          查看全部
-        </Button>
-      </Stack>
+      <Container maxWidth="xl">
 
-      <Box>
 
-        <Box
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between'
-          }}
-        >
-          {
-            artists.slice(0, count).map((o) => (
-              <Ac width={width} item={o} key={o.id} />
-            ))
-          }
+        <Box ref={ref} sx={{ position: 'relative' }}>
+          <Stack sx={{ mb: 6, pt: 6 }} alignItems="center" flexDirection="row" justifyContent="flex-start">
+            <Typography variant="h6">热门歌手</Typography>
+
+            <Button
+              component={Link}
+              href="/top-artists"
+              size="small"
+              sx={{ borderRadius: 10, marginLeft: 'auto' }}
+              variant="contained"
+              color="secondary"
+            >
+              查看全部
+            </Button>
+          </Stack>
+
+          <Box>
+
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'space-between'
+              }}
+            >
+              {
+                artists.slice(0, count).map((o) => (
+                  <Ac width={width} item={o} key={o.id} />
+                ))
+              }
+            </Box>
+
+          </Box>
+
+
         </Box>
+      </Container>
 
+
+      <Box
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '85%',
+          bgcolor: 'background.paper',
+          // backgroundImage: (theme: Theme) => `linear-gradient(45deg,${theme.palette.primary.main} 60%,${theme.palette.secondary.main})`,
+          zIndex: -1
+        }}
+      >
       </Box>
-
     </Box>
+
 
   );
 

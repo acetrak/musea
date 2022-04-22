@@ -99,8 +99,7 @@ const Playlist = (props: PlaylistProps) => {
                   secondary={
                     <React.Fragment>
                       <Typography
-                        sx={{ display: 'inline' }}
-                        component="span"
+                       
                         variant="body2"
                         color="text.secondary"
                         className="nowrap2"

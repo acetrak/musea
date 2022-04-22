@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { useCallback, useMemo, useState } from 'react';
-import { Box, Fab, ImageList, ImageListItem, Typography } from '@mui/material';
+import { Box, Button, Fab, ImageList, ImageListItem, Stack, Typography } from '@mui/material';
 import SwipeableViews from 'react-swipeable-views';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
@@ -8,6 +8,7 @@ import useSWRInfinite from 'swr/infinite';
 import { get } from 'lodash';
 import SquareFillTabs from '../../components/tabs/SquareFillTabs';
 import PersonalizedCard, { MvItem, SkeletonCard } from './PersonalizedCard';
+import { Link } from '../../components';
 
 const ITEMS = ['内地', '港台', '欧美', '日本', '韩国'];
 
@@ -153,13 +154,25 @@ function MvTop() {
   }, [isReachingEnd, page, size]);
 
 
-
   return (
     <>
 
 
-      <Typography variant="h6" pb={1} pt={2} >MV排行</Typography>
+      <Stack direction="row" alignItems="center" pb={1} pt={2}>
+        <Typography variant="h6">MV排行</Typography>
 
+        <Button
+          component={Link}
+          href="/mv-all"
+          variant="contained"
+          size="small"
+          color="secondary"
+          sx={{ borderRadius: 5, ml: 'auto' }}
+        >
+          全部MV
+        </Button>
+
+      </Stack>
       <Box pb={3}>
         <SquareFillTabs items={ITEMS} value={tab} onChange={onTabsChange} />
       </Box>
@@ -241,11 +254,10 @@ function MvTop() {
         }
 
 
-
       </Box>
 
     </>
   );
 }
 
-export default MvTop;
+export default React.memo(MvTop);

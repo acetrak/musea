@@ -8,26 +8,31 @@ import { millisecond2Minute, rgbDataURL, formatNumToTenThousand } from '../../ut
 import { Link } from '../../components';
 
 type SkeletonCardProps = {}
+
+const FakeCard = React.memo(function FakeCard() {
+  return (
+    <Box sx={{ pt: '56.25%', position: 'relative' }}>
+      <Skeleton
+        sx={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%'
+        }}
+        variant="rectangular"
+        animation="wave"
+      />
+    </Box>
+  );
+});
 export const SkeletonCard = (props: SkeletonCardProps) => {
 
   return (
 
     <Box sx={{ position: 'relative', fontSize: 0 }}>
 
-      <Box sx={{ pt: '56.25%', position: 'relative' }}>
-        <Skeleton
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%'
-          }}
-          variant="rectangular"
-          animation="wave"
-        />
-
-      </Box>
+      <FakeCard />
       <Skeleton variant="rectangular" sx={{ mt: 1.5 }} width="40%" height={20} animation="wave" />
     </Box>
 
@@ -74,14 +79,20 @@ function PersonalizedCard(props: PersonalizedCardProps) {
       href={`/mv/[id]`} linkAs={`/mv/${mv.id}`} sx={{ borderRadius: 1, overflow: 'hidden' }} component={Link}
     >
       <Box sx={{ position: 'relative', fontSize: 0 }}>
-        <NextImage
-          src={imgUrl + '?param=320y180'}
-          width={320}
-          height={180}
-          layout="responsive"
-          placeholder="blur"
-          blurDataURL={rgbDataURL(r, g, b)}
-        />
+
+        {
+          imgUrl ? (
+            <NextImage
+              src={imgUrl + '?param=320y180'}
+              width={320}
+              height={180}
+              layout="responsive"
+              placeholder="blur"
+              blurDataURL={rgbDataURL(r, g, b)}
+            />
+          ) : <FakeCard />
+        }
+
         {
           mv.duration && (
             <Box

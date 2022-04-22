@@ -70,6 +70,7 @@ function SimiCard(props: SimiCardProps) {
                   variant="body1"
                   className="nowrap2"
                   color="text.primary"
+                  title={item.name}
                 >
                   {item.name}
                 </Typography>

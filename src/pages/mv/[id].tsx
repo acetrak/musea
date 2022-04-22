@@ -10,6 +10,7 @@ import VideoPlayer from '../../components/VideoPlayer';
 import Comment from '../../features/mv/Comment';
 import PageLayout from '../../components/PageLayout';
 import SimiList from '../../features/mv/SimiList';
+import NewsList from '../../features/mv/NewsList';
 import useMediaQueryKey from '../../hooks/useMediaQueryKey';
 
 const TextOverflow = loadable(() => import('../../features/mv/TextOverflow'));
@@ -69,8 +70,8 @@ function Mv(props: MvProps) {
     return arr[0] + '年' + arr[1] + '月' + arr[2] + '日';
   }, [detail.publishTime]);
 
-    const queryKey = useMediaQueryKey()
-  const isMobile = getIsMobile(queryKey)
+  const queryKey = useMediaQueryKey();
+  const isMobile = getIsMobile(queryKey);
 
   const { data: data_r_1080 } = useSWR(urlBrs === 1080 ? null : () => `/mv/url?id=${mvId}&r=1080`, fetcher);
   const { data: data_r_720 } = useSWR(urlBrs === 720 ? null : () => `/mv/url?id=${mvId}&r=720`, fetcher);
@@ -107,7 +108,7 @@ function Mv(props: MvProps) {
         screenFullRef.current = res.default;
         // @ts-ignore
         screenFullRef.current.on('change', onScreenFullChange);
-        console.log(screenFullRef.current);
+
       }).catch((e) => {
         console.log(e);
       });
@@ -235,7 +236,10 @@ function Mv(props: MvProps) {
                   display: { xs: 'none', md: 'none', lg: 'block' }
                 }}
               >
+                <Typography variant="subtitle1" pb={1}>相似MV</Typography>
                 <SimiList mvId={mvId} />
+                <Typography variant="subtitle1" pt={2} pb={1}>最新MV</Typography>
+                <NewsList />
               </Box>
             </Portal>
 

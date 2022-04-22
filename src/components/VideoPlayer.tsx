@@ -14,7 +14,8 @@ import {
   Portal,
   Slider,
   Stack,
-  Typography
+  Typography,
+  Tooltip
 } from '@mui/material';
 import LinearProgress, { linearProgressClasses } from '@mui/material/LinearProgress';
 import { animated, useSpring } from '@react-spring/web';
@@ -34,10 +35,11 @@ import FilterTiltShiftIcon from '@mui/icons-material/FilterTiltShift';
 import TuneIcon from '@mui/icons-material/Tune';
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CropLandscapeIcon from '@mui/icons-material/CropLandscape';
+import PictureInPictureAltIcon from '@mui/icons-material/PictureInPictureAlt';
+import PictureInPictureIcon from '@mui/icons-material/PictureInPicture';
+import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 
 import { isSafari, second2Minute } from '../utils/utils';
-
-import FullscreenExitIcon from '@mui/icons-material/FullscreenExit';
 
 
 const PLAY_SPEED = [
@@ -361,6 +363,7 @@ type ControlProps = {
   onMouseUp: (e: any) => void
 
   onWidthFull?: () => void
+  onPip?: () => void
   onVolumeClick: () => void
 
   onScreenFull?: () => void
@@ -405,8 +408,8 @@ const ControlBar = (props: ControlProps) => {
     onScreenFull,
     onVolumeClick,
     onVolumeChange,
-    onWidthFull
-
+    onWidthFull,
+    onPip
   } = props;
 
 
@@ -502,23 +505,38 @@ const ControlBar = (props: ControlProps) => {
           {second2Minute(playedSeconds)} / {second2Minute(duration)}
         </Typography>
 
+
         <div id="v_setting" style={{ marginLeft: 'auto' }} />
+
 
         {
           !isScreenFull && (
-            <IconButton onClick={onWidthFull} color="inherit">
-              <CropLandscapeIcon sx={{ fontSize: 32 }} />
-            </IconButton>
+            <Tooltip title="画中画" placement="top">
+              <IconButton color="inherit" onClick={onPip}>
+                <PictureInPictureAltIcon sx={{ fontSize: 26 }} />
+              </IconButton>
+            </Tooltip>
+          )
+        }
+
+        {
+          !isScreenFull && (
+            <Tooltip title="剧场模式" placement="top">
+              <IconButton onClick={onWidthFull} color="inherit">
+                <CropLandscapeIcon sx={{ fontSize: 32 }} />
+              </IconButton>
+            </Tooltip>
           )
         }
 
 
-        <IconButton onClick={onScreenFull} color="inherit">
-          {
-            isScreenFull ? <FullscreenExitIcon sx={{ fontSize: 32 }} /> : <FullscreenIcon sx={{ fontSize: 32 }} />
-          }
-        </IconButton>
-
+        <Tooltip title="全屏" placement="top">
+          <IconButton onClick={onScreenFull} color="inherit">
+            {
+              isScreenFull ? <FullscreenExitIcon sx={{ fontSize: 32 }} /> : <FullscreenIcon sx={{ fontSize: 32 }} />
+            }
+          </IconButton>
+        </Tooltip>
       </Stack>
     </>
   );
@@ -558,6 +576,7 @@ function VideoPlayer(props: PlayerProps) {
     playedSeconds: 0
   });
   const [muted, setMuted] = useState(false);
+  const [isPip, setPip] = useState(false);
   const [buffering, setBuffering] = useState(false);
 
   const [volume, setVolume] = useState(0.5);
@@ -683,6 +702,13 @@ function VideoPlayer(props: PlayerProps) {
     currentTime.current = player.current?.getCurrentTime();
   }, []);
 
+  const onPip = useCallback(() => {
+    setPip(prevState => !prevState);
+  }, []);
+  const onDisablePIP = useCallback(() => {
+    setPip(false)
+   console.log('onDisablePIP')
+  }, []);
 
   return (
 
@@ -733,6 +759,8 @@ function VideoPlayer(props: PlayerProps) {
             height="100%"
             controls={Boolean(safari)}
             className="video_mv_u38rd"
+            pip={isPip}
+            onDisablePIP={onDisablePIP}
           />
           {
             !safari && (
@@ -754,6 +782,7 @@ function VideoPlayer(props: PlayerProps) {
                 loaded={loaded}
                 played={played}
                 isScreenFull={isScreenFull}
+                onPip={onPip}
               />
 
             )

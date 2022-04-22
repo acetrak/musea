@@ -298,6 +298,7 @@ function TopSongs() {
           size="small"
           sx={{ borderRadius: 10, marginLeft: 'auto', display: { xs: 'none', md: 'block' } }}
           variant="contained"
+          color="secondary"
         >
           播放全部
         </Button>

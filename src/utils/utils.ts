@@ -70,8 +70,8 @@ export function formatTime(value: number | string): string {
 
 export const formatNumToTenThousand = (n: any) => {
   if (typeof n !== 'number') return 0;
-  if (n >= 100000)
-    return `${Math.floor((n / 100000) * 10) / 10}万`;
+  if (n >= 10000)
+    return `${Math.floor((n / 10000) * 100) / 100}万`;
   return n;
 };
 

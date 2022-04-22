@@ -3,7 +3,6 @@ import * as React from 'react';
 import { useMemo } from 'react';
 import Head from 'next/head';
 import {
-  alpha,
   Box,
   CardActionArea,
   Container,
@@ -17,14 +16,12 @@ import {
   Typography
 } from '@mui/material';
 import { useTheme } from '@mui/material/styles';
-import NextImage from 'next/image';
 
 import { getIsMobile, request } from '../utils/utils';
 
 import { Image, Link } from '../components';
 import { ArtistsItem } from '../features/index/TopArtists';
 import useMediaQueryKey from '../hooks/useMediaQueryKey';
-import bgPic from '../../public/bruno-emmanuelle-dtqlaz4HyHw-unsplash.jpg';
 import { appName } from '../constant';
 
 type ArtistsProps = {
@@ -58,7 +55,7 @@ const Artists: NextPage<ArtistsProps> = (props) => {
 
   const isMobile = getIsMobile(key);
 
-  const headMt = isMobile ? '30vh' : '35vh';
+  const headMt = isMobile ? '20vh' : '25vh';
 
   return (
     <>
@@ -73,12 +70,14 @@ const Artists: NextPage<ArtistsProps> = (props) => {
           width: '100%',
           position: 'relative',
 
-          height: headMt
-
+          height: headMt,
+          backgroundImage: (theme: Theme) => theme.palette.mode==='dark'?
+            `linear-gradient(45deg,${theme.palette.primary.main},${theme.palette.secondary.main})`:
+            `linear-gradient(45deg,${theme.palette.primary.light},${theme.palette.secondary.light})`
 
         }}
       >
-        <NextImage src={bgPic} layout="responsive" className="bgPic" />
+        {/*<NextImage src={bgPic} layout="responsive" className="bgPic" />*/}
         <Box
           sx={{
             width: '100%',
@@ -93,9 +92,9 @@ const Artists: NextPage<ArtistsProps> = (props) => {
           }}
         >
           <Typography
-            variant="h2"
+            variant="h3"
             sx={{
-              color: theme.palette.mode === 'dark' ? '#fff' : 'primary.main',
+              color: '#fff',
               fontWeight: '300'
             }}
             mb={5}

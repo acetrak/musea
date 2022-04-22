@@ -5,7 +5,6 @@ import { connect } from 'react-redux';
 import SkipNextOutlinedIcon from '@mui/icons-material/SkipNextOutlined';
 import SkipPreviousOutlinedIcon from '@mui/icons-material/SkipPreviousOutlined';
 import PlaylistPlayOutlinedIcon from '@mui/icons-material/PlaylistPlayOutlined';
-import { Dispatch } from 'redux';
 import { useSnackbar } from 'notistack';
 
 import AudioPlayer, { AudioRef } from '../../components/AudioPlayer';
@@ -13,7 +12,7 @@ import Playlist from './Playlist';
 import Image from '../../components/Image';
 import { playNext, playPrev, togglePlayListShow } from '../../store/play/action';
 import { State } from '../../store';
-import { PlaylistItem } from '../../store/play/reducer';
+import { Link } from '../../components';
 
 
 type PlayBarProps = {
@@ -132,11 +131,23 @@ const PlayBar = (props: PlayBarProps) => {
             }
 
             <Stack justifyContent="center" sx={{ ml: 2, display: currentPlay ? 'inline-block' : 'none' }}>
-              <Typography variant="subtitle1" sx={{ maxWidth: isMobile ? 140 : 'unset' }} className="nowrap1">
+              <Typography
+
+                variant="subtitle1"
+                sx={{ maxWidth: isMobile ? 140 : 'unset' }}
+                className="nowrap1"
+              >
                 {currentPlay?.name}
               </Typography>
 
-              <Typography color="text.secondary" sx={{ maxWidth: isMobile ? 120 : 200 }} className="nowrap1">
+
+              <Typography
+                component={Link}
+                href={`search?keyword=${currentPlay?.ar}&tab=1`}
+                color="text.secondary"
+                sx={{ maxWidth: isMobile ? 120 : 200, textDecoration: 'none', '&:hover': { color: '#fff' } }}
+                className="nowrap1"
+              >
                 {currentPlay?.ar}
               </Typography>
 

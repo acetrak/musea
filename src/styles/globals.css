@@ -4,7 +4,7 @@
 }
 
 #nprogress .bar {
-    background: linear-gradient(45deg, #B24592 30%, #F15F79 90%);
+    background: linear-gradient(45deg, #aa5377 30%, #8cc152 90%);
 
     position: fixed;
     z-index: 1631;
@@ -22,7 +22,7 @@
     right: 0px;
     width: 100px;
     height: 100%;
-    box-shadow: 0 0 10px #B24592, 0 0 5px #F15F79;
+    box-shadow: 0 0 10px #8cc152, 0 0 5px #aa5377;
     opacity: 1.0;
 
     -webkit-transform: rotate(3deg) translate(0px, -4px);
@@ -45,8 +45,8 @@
     box-sizing: border-box;
 
     border: solid 2px transparent;
-    border-top-color: #B24592;
-    border-left-color: #F15F79;
+    border-top-color: #8cc152;
+    border-left-color: #aa5377;
     border-radius: 50%;
 
     -webkit-animation: nprogress-spinner 400ms linear infinite;
@@ -160,10 +160,11 @@ img {
     left: 0;
 }
 
-.bgPic{
+.bgPic {
     object-fit: cover;
 }
-.video_mv_u38rd{
+
+.video_mv_u38rd {
     background: #000;
     border-radius: 12px;
     overflow: hidden;

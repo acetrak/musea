@@ -25,21 +25,12 @@ const Home: NextPage<HomeProps> = (props) => {
         <title>{appName}- 首页</title>
       </Head>
 
-      {/*<Stack>*/}
-      {/*  <Typography variant="h5">h5: 你好，哈哈哈1234567</Typography>*/}
-      {/*  <Typography variant="h6">h6: 你好，哈哈哈1234567</Typography>*/}
-      {/*  <Typography variant="subtitle1">subtitle1: 你好，哈哈哈1234567</Typography>*/}
-      {/*  <Typography variant="subtitle2">subtitle2: 你好，哈哈哈1234567</Typography>*/}
-      {/*  <Typography variant="body1">body1: 你好，哈哈哈1234567</Typography>*/}
-      {/*  <Typography variant="body2">body2: 你好，哈哈哈1234567</Typography>*/}
-      {/*  <Typography variant="caption">caption: 你好，哈哈哈1234567</Typography>*/}
-      {/*</Stack>*/}
+      <TopArtists artists={artists} />
 
-      <PageLayout>
-        <div style={{ marginBottom: 100 }}>
-          <TopArtists artists={artists} />
-          <TopSongs />
-        </div>
+
+      <PageLayout sx={{pt:0}}>
+        <TopSongs />
+
       </PageLayout>
     </>
 

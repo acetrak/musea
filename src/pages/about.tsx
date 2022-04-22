@@ -14,10 +14,13 @@ const About: NextPage = (props) => {
         <title>{appName } - 关于</title>
       </Head>
       <Box sx={{ p: 2 }}>
-        <Typography variant="h5" mt="20vh" color="grey.400">
+        <Typography variant="h5" mt="20vh" color="text.secondary">
           关于本站
         </Typography>
-        <Typography py={4} variant="h6">本网站基于NextJs开发,API来源自开源社区。仅供学习交流，不用于商业用途。</Typography>
+        <Typography py={4} variant="h6">本网站基于
+          <Link href="https://www.nextjs.cn" target="_blank">NextJs</Link>、
+          <Link href="https://zh-hans.reactjs.org" target="_blank">React 18</Link>
+          开发，API来源自开源社区。仅供学习交流，不用于商业用途。</Typography>
 
 
         <Box py={2}>
