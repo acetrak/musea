@@ -7,7 +7,6 @@ import { appName } from '../constant';
 
 const About: NextPage = (props) => {
 
-
   return (
     <PageLayout>
       <Head>
