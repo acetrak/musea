@@ -9,12 +9,18 @@ import NProgress from 'nprogress';
 // Add support for the sx prop for consistency with the other branches.
 const Anchor = styled('a')({});
 
-interface NextLinkComposedProps
-  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>,
-    Omit<NextLinkProps, 'href' | 'as'> {
-  to: NextLinkProps['href'];
-  linkAs?: NextLinkProps['as'];
-}
+type NextLinkComposedProps =
+  Omit<
+    React.AnchorHTMLAttributes<HTMLAnchorElement>,
+    'href' | 'onClick'
+  > &
+  Omit<
+    NextLinkProps,
+    'href' | 'as'
+  > & {
+    to: NextLinkProps['href'];
+    onClick?: React.MouseEventHandler<HTMLAnchorElement>;
+  };
 
 export const NextLinkComposed = React.forwardRef<HTMLAnchorElement, NextLinkComposedProps>(
   function NextLinkComposed(props, ref) {
